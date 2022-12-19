@@ -47,3 +47,8 @@ BackEnd APIs:
     - UPDATE Price (:id price)
     - DELETE Price (:id price)
     - POST Price
+
+
+    Kay commands that i have used:
+
+    php artisan make:model "name" -m
