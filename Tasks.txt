@@ -8,16 +8,25 @@ For the database I will create three tables that will be related:
 
 Brand table ( contains all the brands available) --> one to many --> Phone table ( contains all the phone models available ) ---> one to many --> price log table (change in prices for each phone model)
 
-BackEnd TasK:
+BackEnd Table Layout:
 
 - Brands
-
+    - Id
+    - Name
 
 - Models
-
+    - Id
+    - Brand (reference key id of Brands)
+    - Model
+    - Release_price
+    - release_date
 
 - Prices
-
+    - Id
+    - Model (reference key id of Models)
+    - Year
+    - Month
+    - Price
 
 BackEnd APIs:
 
