@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\BrandControllers;
+use App\Http\Controllers\Api\PhonesController;
+use App\Http\Controllers\Api\PricesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::controller(PhonesController::class)->group(function () {
+    Route::get('/phones', 'show');
+    Route::get('/phone/{id}', 'showId');
+    Route::put('/phones/{id}', 'update');
+    Route::post('/phones', 'store');
+    Route::delete('/phones/{id}', 'destroy');
+});
+
+Route::controller(PricesController::class)->group(function () {
+    Route::get('/prices', 'show');
+    Route::get('/prices/{id}', 'showId');
+    Route::get('/price/{id}', 'showSinglePrice');
+    Route::put('/price/{id}', 'update');
+    Route::post('/price', 'store');
+    Route::delete('/price/{id}', 'destroy');
+});
+
+Route::controller(BrandControllers::class)->group(function () {
+    Route::get('/brand', 'store');
+    Route::post('/brand', 'create');
 });
