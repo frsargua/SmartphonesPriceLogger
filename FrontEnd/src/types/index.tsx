@@ -15,3 +15,13 @@ export type PriceProps = {
 export type BrandProps = {
   brand: string;
 };
+
+export type BrandsProps = { brand: string };
+
+export type BrandsContextProps = {
+  brands: BrandProps[];
+};
+
+export type ChildrenProps = {
+  children?: React.ReactNode;
+};
