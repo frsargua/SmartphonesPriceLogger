@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { CreatePhone } from "../../components/CreatePhone/Index";
 import DisplayTableForPhones from "../../components/DisplayTableForPhones";
 
 export function Main() {
@@ -13,6 +14,7 @@ export function Main() {
       >
         Table of phones from the database
       </Typography>
+      <CreatePhone />
       <DisplayTableForPhones />
     </>
   );
