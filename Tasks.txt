@@ -49,6 +49,6 @@ BackEnd APIs:
     - POST Price
 
 
-    Kay commands that i have used:
+   Comment:
 
-    php artisan make:model "name" -m
+   Taking a break
