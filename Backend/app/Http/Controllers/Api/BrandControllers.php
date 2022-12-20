@@ -16,7 +16,7 @@ class BrandControllers extends Controller
         $brand->save();
     }
        public function show(){
-        $brand = DB::table('brands')->get();
+        $brand = brands::select('brand')->get();
         return $brand;
     }
 }

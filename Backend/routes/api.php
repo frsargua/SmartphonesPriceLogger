@@ -36,6 +36,6 @@ Route::controller(PricesController::class)->group(function () {
 });
 
 Route::controller(BrandControllers::class)->group(function () {
-    Route::get('/brand', 'store');
-    Route::post('/brand', 'create');
+    Route::get('/brand', 'show');
+    Route::post('/brand', 'store');
 });

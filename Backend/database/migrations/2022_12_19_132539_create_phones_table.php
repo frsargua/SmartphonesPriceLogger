@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('brand_id');
+            $table->string('brand_name');
             $table->string('model')->unique();
             $table->date('release_date');
             $table->double('release_price');
             $table->timestamps();
-            $table-> foreign('brand_id')->references('id')->on('brands')->onDelete(('cascade'))->onUpdate('cascade');
+            $table-> foreign('brand_name')->references('brand')->on('brands')->onDelete(('cascade'))->onUpdate('cascade');
         });
     }
 

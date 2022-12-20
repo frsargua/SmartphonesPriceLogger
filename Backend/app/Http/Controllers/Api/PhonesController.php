@@ -11,7 +11,7 @@ class PhonesController extends Controller
 {
     public function store(Request $request){
         $phone =  new phones;
-        $phone->brand_id = $request->brand_id;
+        $phone->brand_name = $request->brand_name;
         $phone->model = $request->model;
         $phone->release_date = $request->release_date;
         $phone->release_price = $request->release_price;
@@ -31,9 +31,8 @@ class PhonesController extends Controller
 
     public function update(Request $request, $id){
         $phone = phones::find($id);
-        $phone->brand_id = $request->brand_id;
+        $phone->brand_name = $request->brand_name;
         $phone->model = $request->model;
-        $phone->release_date = $request->release_date;
         $phone->release_price = $request->release_price;
         $phone->save();
 

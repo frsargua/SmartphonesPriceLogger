@@ -13,7 +13,7 @@ class phones extends Model
 
     protected $primaryKey='id';
 
-    protected $fillable=['brand_id','model','release_date','release_price'];
+    protected $fillable=['brand_name','model','release_date','release_price'];
 
     public function prices()
     {
