@@ -1,7 +1,20 @@
-import { Button, TextField, Typography } from "@mui/material";
+import * as React from "react";
+import {
+  Button,
+  TextField,
+  Typography,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Box } from "@mui/system";
+import { useState } from "react";
 
 export function CreateBrand() {
+  let [newBrand, setNewBrand] = useState("");
+
+  const handleChange = (event: React.ChangeEvent<any>) => {
+    setNewBrand(event.target.value);
+  };
+
   return (
     <>
       <Box
@@ -32,7 +45,12 @@ export function CreateBrand() {
             width: "100%",
           }}
         >
-          <TextField label="New Brand" variant="filled" margin="normal" />
+          <TextField
+            label="New Brand"
+            variant="filled"
+            margin="normal"
+            onChange={handleChange}
+          />
           <Button variant="contained">Add</Button>
         </Box>
       </Box>
