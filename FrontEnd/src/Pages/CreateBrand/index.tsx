@@ -7,13 +7,38 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BrandsContext } from "../../context/BrandsContext";
 
 export function CreateBrand() {
   let [newBrand, setNewBrand] = useState("");
+  let { fetchBrands } = React.useContext(BrandsContext);
+
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<any>) => {
     setNewBrand(event.target.value);
   };
+
+  async function handleSubmit(event: React.ChangeEvent<any>) {
+    event.preventDefault();
+
+    try {
+      let response = await fetch("http://127.0.0.1:8000/api/brand", {
+        method: "POST",
+        body: JSON.stringify({ brand: newBrand }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response) {
+        fetchBrands();
+        navigate(`/`, { replace: true });
+      }
+    } catch (error) {
+      console.error("Error in POST request:", error);
+      return;
+    }
+  }
 
   return (
     <>
@@ -39,19 +64,25 @@ export function CreateBrand() {
           Add a new phone
         </Typography>
         <Box
+          component="form"
           sx={{
             display: "flex",
             flexDirection: "column",
             width: "100%",
           }}
+          onSubmit={handleSubmit}
         >
           <TextField
             label="New Brand"
             variant="filled"
             margin="normal"
+            required
+            InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
             onChange={handleChange}
           />
-          <Button variant="contained">Add</Button>
+          <Button type="submit" variant="contained">
+            Add
+          </Button>
         </Box>
       </Box>
     </>
