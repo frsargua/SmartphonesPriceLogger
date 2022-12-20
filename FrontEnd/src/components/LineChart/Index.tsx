@@ -1,41 +1,62 @@
+import "chartjs-adapter-date-fns";
+import { enGB } from "date-fns/locale";
+//this sets the display language. In the documentation it uses "de", which will display dates in German.
+
 import React from "react";
 import {
   Chart as ChartJS,
+  registerables,
   CategoryScale,
+  TimeScale,
   LinearScale,
   PointElement,
   LineElement,
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
-import type { ChartData, ChartOptions } from "chart.js";
+
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
-  CategoryScale,
+  TimeScale, //Register timescale instead of category for X axis
   LinearScale,
   PointElement,
   LineElement,
+  CategoryScale,
+
   Title,
   Tooltip,
   Legend
 );
 
-interface LineProps {
-  options: ChartOptions<"line">;
-  data: ChartData<"line">;
-}
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   scales
+// );
 
-export const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top" as const,
+export const options: ChartOptions = {
+  response: true,
+  scales: {
+    y: {
+      title: { display: true, text: "Percentage" },
     },
-    title: {
-      display: false,
+    x: {
+      type: "time",
+      time: {
+        unit: "month",
+      },
+      title: {
+        display: true,
+        text: "Date",
+      },
     },
   },
 };
@@ -46,9 +67,8 @@ interface Props {
 }
 
 export function LineChart(props: Props) {
-  const { labels, devaluationData } = props;
+  const { devaluationData } = props;
   let data = {
-    labels,
     datasets: [
       {
         label: "name",
