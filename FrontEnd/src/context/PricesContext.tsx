@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { PricesContextProps, ChildrenProps, PricesProps } from "../types";
 import { fetchData } from "../utils/index";
 
-import { getAllPrices } from "../utils/URIs";
+import { getAllPricesById } from "../utils/URIs";
 
 export const PricesContext = createContext<PricesContextProps>({
   prices: [],
@@ -12,15 +12,10 @@ export const PricesContext = createContext<PricesContextProps>({
 export const PricesProvider = ({ children }: ChildrenProps) => {
   const [prices, setPrices] = useState<PricesProps[]>([]);
 
-  async function fetchPrices() {
-    let data = await fetchData(getAllPrices());
+  async function fetchPrices(id: string) {
+    let data = await fetchData(getAllPricesById(id));
     setPrices(data);
   }
-
-  useEffect(() => {
-    fetchPrices();
-    return;
-  }, []);
 
   let value = {
     prices: prices,
