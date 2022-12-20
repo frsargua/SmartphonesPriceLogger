@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { CreatePhone } from "../../components/CreatePhone/Index";
 import DisplayTableForPhones from "../../components/DisplayTableForPhones";
+import { Filter } from "../../components/FIlter/Index";
 
 export function Main() {
   return (
@@ -9,7 +10,7 @@ export function Main() {
         Table of phones from the database
       </Typography>
       <CreatePhone />
-
+      <Filter />
       <Typography variant="h4" component={"h1"} mb={2}>
         Table
       </Typography>
