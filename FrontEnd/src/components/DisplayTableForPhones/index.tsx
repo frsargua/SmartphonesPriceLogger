@@ -78,7 +78,7 @@ export default function DisplayTableForPhones() {
           ).map((row, i) => (
             <TableRow key={i}>
               <TableCell align="center">{row.release_date}</TableCell>
-              <TableCell align="center">{row.brand_id}</TableCell>
+              <TableCell align="center">{row.brand_name}</TableCell>
               <TableCell align="center">{row.model}</TableCell>
               <TableCell align="center">{row.release_price}</TableCell>
               <TableCell
