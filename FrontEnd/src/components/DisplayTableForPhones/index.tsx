@@ -10,34 +10,16 @@ import Paper from "@mui/material/Paper";
 
 import { Button, TableHead } from "@mui/material";
 import { Link } from "react-router-dom";
-
-function createData(name: string, calories: number, fat: number) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7),
-  createData("Donut", 452, 25.0),
-  createData("Eclair", 262, 16.0),
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Gingerbread", 356, 16.0),
-  createData("Honeycomb", 408, 3.2),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Jelly Bean", 375, 0.0),
-  createData("KitKat", 518, 26.0),
-  createData("Lollipop", 392, 0.2),
-  createData("Marshmallow", 318, 0),
-  createData("Nougat", 360, 19.0),
-  createData("Oreo", 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 
 export default function DisplayTableForPhones() {
+  let { phones, fetchPhones } = React.useContext(CollectionOfPhonesContext);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - phones.length) : 0;
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -52,6 +34,22 @@ export default function DisplayTableForPhones() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  async function deletePhone(id: Number) {
+    try {
+      let response = await fetch(`http://127.0.0.1:8000/api/phones/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response) {
+        fetchPhones();
+      }
+    } catch (error) {
+      console.error("Error in POST request:", error);
+      return;
+    }
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -75,14 +73,14 @@ export default function DisplayTableForPhones() {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? phones.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : phones
           ).map((row, i) => (
-            <TableRow key={row.name}>
-              <TableCell align="center">{i}</TableCell>
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.calories}</TableCell>
-              <TableCell align="center">{row.fat}</TableCell>
+            <TableRow key={i}>
+              <TableCell align="center">{row.release_date}</TableCell>
+              <TableCell align="center">{row.brand_id}</TableCell>
+              <TableCell align="center">{row.model}</TableCell>
+              <TableCell align="center">{row.release_price}</TableCell>
               <TableCell
                 align="center"
                 sx={{
@@ -90,12 +88,14 @@ export default function DisplayTableForPhones() {
                   flexDirection: { xs: "column", md: "row" },
                 }}
               >
-                <Button>Delete</Button>
-                <Button>
-                  <Link to={"/update-phone/:id"}>Update</Link>
+                <Button type="button" onClick={() => deletePhone(row.id)}>
+                  Delete
                 </Button>
                 <Button>
-                  <Link to={"/prices/:id"}>Stats</Link>
+                  <Link to={`/update-phone/${row.id}`}>Update</Link>
+                </Button>
+                <Button>
+                  <Link to={`/prices/${row.id}`}>Stats</Link>
                 </Button>
               </TableCell>
             </TableRow>
@@ -111,7 +111,7 @@ export default function DisplayTableForPhones() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={phones.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
