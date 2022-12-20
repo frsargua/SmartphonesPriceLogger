@@ -12,6 +12,7 @@ export const CollectionOfPhonesContext =
   createContext<PhonesCollectionContextProps>({
     phones: [],
     fetchPhones: () => {},
+    getSinglePhone: (id: Number) => {},
   });
 
 export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
@@ -19,9 +20,15 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
 
   async function fetchPhones() {
     let data = await fetchData(getAllPhones());
-    console.log(data);
     setPhones(data);
   }
+
+  function getSinglePhone(id: Number) {
+    if (phones.length > 0) {
+      return phones.filter((el) => el.id === id);
+    }
+  }
+
   useEffect(() => {
     fetchPhones();
     return;
@@ -30,6 +37,7 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
   let value = {
     phones: phones,
     fetchPhones: fetchPhones,
+    getSinglePhone: getSinglePhone,
   };
   return (
     <CollectionOfPhonesContext.Provider value={value}>
