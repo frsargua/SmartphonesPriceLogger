@@ -7,7 +7,7 @@ export type PhoneProps = {
 };
 
 export type PriceProps = {
-  date: Date;
+  date_added: Date;
   price: number;
   newPrice: number;
 };
@@ -23,9 +23,16 @@ export type BrandsContextProps = {
   fetchBrands: () => void;
 };
 
+export type PricesProps = { brand: string };
+
+export type PricesContextProps = {
+  prices: PriceProps[];
+  fetchPrices: () => void;
+};
+
 export type PhonesProps = {
   id: Number;
-  brand_name: Number;
+  brand_name: string;
   model: string;
   release_date: Date;
   release_price: Number;
@@ -35,6 +42,7 @@ export type PhonesCollectionContextProps = {
   phones: PhonesProps[];
   fetchPhones: () => void;
   getSinglePhone: (id: Number) => void;
+  filter: (brand: string, price: number | string) => PhonesProps[];
 };
 
 export type ChildrenProps = {
