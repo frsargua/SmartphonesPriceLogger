@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
@@ -6,9 +6,18 @@ import { CreatePrice } from "../../components/CreatePrice/Index";
 import DisplayTableForPrices from "../../components/DisplayTableForPrices";
 import { LineChart } from "../../components/LineChart/Index";
 import { PricesContext } from "../../context/PricesContext";
+import { MyParams } from "../../types";
+import { useParams } from "react-router-dom";
 
 export function Prices() {
-  let { prices } = useContext(PricesContext);
+  const { id } = useParams<keyof MyParams>() as MyParams;
+  let { prices, fetchPrices } = useContext(PricesContext);
+
+  useEffect(() => {
+    fetchPrices(id);
+
+    return;
+  }, []);
 
   return (
     <>
