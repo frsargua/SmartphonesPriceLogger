@@ -19,7 +19,7 @@ export function UpdatePhone() {
   let { phones, fetchPhones } = React.useContext(CollectionOfPhonesContext);
   const [brand, setBrand] = React.useState<string>("");
   const [model, setModel] = React.useState<string>();
-  const [price, setPrice] = React.useState<Number | null>();
+  const [price, setPrice] = React.useState<Number>();
 
   const handleChangeSelect = (event: SelectChangeEvent) => {
     setBrand(event.target.value as string);
@@ -43,10 +43,16 @@ export function UpdatePhone() {
       let response = await fetch(`http://127.0.0.1:8000/api/phones/${id}`, {
         method: "PUT",
         body: JSON.stringify({ ...body }),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
 
-      if (response) {
+      console.log(body);
+      console.log(response.json());
+
+      if (response.ok) {
         fetchPhones();
         navigate(`/`, { replace: true });
       }
