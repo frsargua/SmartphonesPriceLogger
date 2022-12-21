@@ -30,7 +30,7 @@ Route::controller(PricesController::class)->group(function () {
     Route::get('/prices', 'show');
     Route::get('/prices/{id}', 'showId');
     Route::get('/price/{id}', 'showSinglePrice');
-    Route::put('/price/{id}', 'update');
+    Route::put('/price/{phoneId}/{id}', 'update');
     Route::post('/price', 'store');
     Route::delete('/price/{id}', 'destroy');
 });

@@ -24,7 +24,7 @@ export function CreatePhone() {
   const [model, setModel] = React.useState<string>();
   const [price, setPrice] = React.useState<Number | null>();
 
-  const clearStates = (event: SelectChangeEvent): void => {
+  const clearStates = (): void => {
     setBrand("");
     setDate(dayjs());
     setModel("");
@@ -49,7 +49,7 @@ export function CreatePhone() {
   async function handleSubmit(event: React.ChangeEvent<any>) {
     event.preventDefault();
     let body = {
-      brand_id: 1,
+      brand_name: brand,
       model: model,
       release_date: date?.format("YYYY-MM-DD"),
       release_price: price,

@@ -33,7 +33,7 @@ class PricesController extends Controller
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $phoneId,$id){
         $prices = prices::find($id);
         $prices->date_added = $request->date_added;
         $prices->price = $request->price;

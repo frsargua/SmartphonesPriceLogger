@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/create-brand" element={<CreateBrand />} />
           <Route path="/update-phone/:id" element={<UpdatePhone />} />
-          <Route path="/update-price/:id" element={<UpdatePrice />} />
+          <Route path="/update-price/:phoneId/:id" element={<UpdatePrice />} />
           <Route path="/prices/:id" element={<Prices />} />
         </Routes>
       </Container>
