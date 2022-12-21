@@ -63,7 +63,7 @@ export const options: ChartOptions = {
 
 interface Props {
   labels?: string[];
-  devaluationData?: number[];
+  devaluationData?: { x: Date; y: number }[];
 }
 
 export function LineChart(props: Props) {
