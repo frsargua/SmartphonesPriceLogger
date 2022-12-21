@@ -57,13 +57,7 @@ export function Filter() {
           mx: "auto",
         }}
       >
-        <Typography
-          variant="h3"
-          component={"h1"}
-          mb={5}
-          fontWeight={700}
-          gutterBottom
-        >
+        <Typography variant="h4" component={"h1"} mb={5} gutterBottom>
           Filter
         </Typography>
         <Box
