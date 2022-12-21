@@ -9,6 +9,8 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrandsContext } from "../../context/BrandsContext";
+import { fetchData } from "../../utils/index";
+import { parse } from "node:path/win32";
 
 export function CreateBrand() {
   let [newBrand, setNewBrand] = useState("");
@@ -20,22 +22,30 @@ export function CreateBrand() {
     setNewBrand(event.target.value);
   };
 
-  async function handleSubmit(event: React.ChangeEvent<any>) {
-    event.preventDefault();
+  async function handleSubmit(e: React.ChangeEvent<any>) {
+    e.preventDefault();
 
     try {
       let response = await fetch("http://127.0.0.1:8000/api/brand", {
         method: "POST",
         body: JSON.stringify({ brand: newBrand }),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
 
-      if (response) {
+      if (response.ok) {
         fetchBrands();
         navigate(`/`, { replace: true });
       }
-    } catch (error) {
-      console.error("Error in POST request:", error);
+
+      if (!response.ok) {
+        let jsonResponse = await response.json();
+        throw new Error(jsonResponse.message);
+      }
+    } catch (err) {
+      console.error("Error in POST request:", err);
       return;
     }
   }
@@ -77,10 +87,11 @@ export function CreateBrand() {
             variant="filled"
             margin="normal"
             required
+            aria-label="brand-input"
             InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
             onChange={handleChange}
           />
-          <Button type="submit" variant="contained">
+          <Button aria-label="add-brand-btn" type="submit" variant="contained">
             Add
           </Button>
         </Box>

@@ -74,7 +74,7 @@ export function CreatePhone() {
 
   return (
     <>
-      <Typography variant="h3">Add phone</Typography>
+      <Typography variant="h4">Add phone</Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -96,7 +96,9 @@ export function CreatePhone() {
             onChange={handleChangeSelect}
           >
             {brands.map((el) => (
-              <MenuItem value={el.brand}>{el.brand}</MenuItem>
+              <MenuItem aria-label="brand-selectors" value={el.brand}>
+                {el.brand}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
