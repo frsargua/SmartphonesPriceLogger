@@ -18,11 +18,11 @@ export function UpdatePrice() {
   const { id, phoneId } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
 
-  const [value, setValue] = React.useState<Dayjs>(dayjs());
-  const [price, setPrice] = React.useState<Number>();
+  const [value, setValue] = React.useState<String>("");
+  const [price, setPrice] = React.useState<Number>(100);
 
   const handleChange = (newValue: Dayjs) => {
-    setValue(newValue);
+    setValue(newValue.format("YYYY-MM-DD"));
   };
 
   function handlePriceChange(event: React.ChangeEvent<any>) {
@@ -47,10 +47,12 @@ export function UpdatePrice() {
       let response = await fetch(updatePriceById(String(id), String(phoneId)), {
         method: "PUT",
         body: JSON.stringify({ ...body }),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
-
-      if (response) {
+      if (response.ok) {
         fetchPrices(String(id));
         navigate(`/prices/${phoneId}`, { replace: true });
       }
@@ -62,7 +64,7 @@ export function UpdatePrice() {
 
   React.useEffect(() => {
     getSinglePrice(String(id));
-
+    console.log(value);
     return;
   }, []);
 
