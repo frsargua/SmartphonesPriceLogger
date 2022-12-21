@@ -59,7 +59,7 @@ export function UpdatePhone() {
   React.useEffect(() => {
     console.log(phones);
     let singlePhone = phones.filter((el) => el.id == parseInt(id))[0];
-    setBrand("Apple");
+    setBrand(singlePhone.brand_name);
     setModel(singlePhone.model);
     setPrice(singlePhone.release_price);
   }, []);

@@ -5,12 +5,66 @@ import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { getAllPriceById, updatePriceById } from "../../utils/URIs";
+import { MyParams, PricesProps } from "../../types";
+import { useParams } from "react-router-dom";
+import { fetchData } from "../../utils";
+import { PricesContext } from "../../context/PricesContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function UpdatePrice() {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-  const handleChange = (newValue: Dayjs | null) => {
+  const navigate = useNavigate();
+  const { id, phoneId } = useParams<keyof MyParams>() as MyParams;
+  let { fetchPrices } = useContext(PricesContext);
+
+  const [value, setValue] = React.useState<Dayjs>(dayjs());
+  const [price, setPrice] = React.useState<Number>();
+
+  const handleChange = (newValue: Dayjs) => {
     setValue(newValue);
   };
+
+  function handlePriceChange(event: React.ChangeEvent<any>) {
+    setPrice(event.target.value as Number);
+  }
+
+  async function getSinglePrice(id: string) {
+    let data = await fetchData(getAllPriceById(id));
+
+    setPrice(data[0].price);
+    setValue(data[0].date_added);
+  }
+
+  async function handleSubmit(event: React.ChangeEvent<any>) {
+    event.preventDefault();
+
+    let body = {
+      date_added: value,
+      price: price,
+    };
+    try {
+      let response = await fetch(updatePriceById(String(id), String(phoneId)), {
+        method: "PUT",
+        body: JSON.stringify({ ...body }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response) {
+        fetchPrices(String(id));
+        navigate(`/prices/${phoneId}`, { replace: true });
+      }
+    } catch (error) {
+      console.error("Error in POST request:", error);
+      return;
+    }
+  }
+
+  React.useEffect(() => {
+    getSinglePrice(String(id));
+
+    return;
+  }, []);
 
   return (
     <>
@@ -36,13 +90,21 @@ export function UpdatePrice() {
           Change Prices
         </Typography>
         <Box
+          component="form"
+          onSubmit={handleSubmit}
           sx={{
             display: "flex",
             flexDirection: "column",
             width: "100%",
           }}
         >
-          <TextField label="Price" variant="filled" margin="normal" />
+          <TextField
+            label="Price"
+            value={price}
+            onChange={handlePriceChange}
+            variant="filled"
+            margin="normal"
+          />{" "}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               // minDate={dayjs()}
@@ -60,7 +122,9 @@ export function UpdatePrice() {
               )}
             />
           </LocalizationProvider>
-          <Button variant="contained">Change</Button>
+          <Button type="submit" variant="contained">
+            Change
+          </Button>
         </Box>
       </Box>
     </>
