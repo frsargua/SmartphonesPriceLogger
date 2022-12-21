@@ -7,15 +7,19 @@ import TableFooter from "@mui/material/TableFooter";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import { useContext } from "react";
 import { Button, TableHead, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { PricesContext } from "../../context/PricesContext";
+import { MyParams } from "../../types";
+import { useParams } from "react-router-dom";
+import { deletePriceById } from "../../utils/URIs";
 
 export default function DisplayTableForPrices() {
-  let { prices } = React.useContext(PricesContext);
+  const { id } = useParams<keyof MyParams>() as MyParams;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  let { prices, changeTempId, fetchPrices } = useContext(PricesContext);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -34,6 +38,22 @@ export default function DisplayTableForPrices() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  async function deletePrice(id: Number) {
+    try {
+      let response = await fetch(deletePriceById(String(id)), {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response) {
+        changeTempId(id);
+      }
+    } catch (error) {
+      console.error("Error in POST request:", error);
+      return;
+    }
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -74,9 +94,9 @@ export default function DisplayTableForPrices() {
                   flexDirection: { xs: "column", md: "row" },
                 }}
               >
-                <Button>Delete</Button>
+                <Button onClick={() => deletePrice(row.id)}>Delete</Button>
                 <Button>
-                  <Link to={"/update-price/:id"}>Update</Link>
+                  <Link to={`/update-price/${id}/${row.id}`}>Update</Link>
                 </Button>
               </TableCell>
             </TableRow>
