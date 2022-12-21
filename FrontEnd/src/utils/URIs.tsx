@@ -9,3 +9,22 @@ export function getAllPhones(): string {
 export function getAllPrices(): string {
   return "http://127.0.0.1:8000/api/prices";
 }
+export function getAllPricesById(id: string): string {
+  return `http://127.0.0.1:8000/api/prices/${id}`;
+}
+
+export function getAllPriceById(id: string): string {
+  return `http://127.0.0.1:8000/api/price/${id}`;
+}
+
+export function createPriceById(): string {
+  return `http://127.0.0.1:8000/api/price`;
+}
+
+export function deletePriceById(id: string): string {
+  return `http://127.0.0.1:8000/api/price/${id}`;
+}
+
+export function updatePriceById(id: string, phoneId: string): string {
+  return `http://127.0.0.1:8000/api/price/${phoneId}/${id}`;
+}

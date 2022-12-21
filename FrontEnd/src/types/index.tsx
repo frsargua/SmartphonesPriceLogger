@@ -1,16 +1,18 @@
 export type PhoneProps = {
   brand_name?: number;
-  brand?: string;
-  model: string;
-  price: number;
-  id: number;
+  model?: string;
+  price?: number;
+  id?: number;
 };
 
-export type PriceProps = {
-  date_added: Date;
-  price: number;
-  newPrice: number;
-};
+// export type PriceProps = {
+//   model_id: Number;
+//   id: Number;
+//   date_added: Date;
+//   price: number;
+//   created_at: Date;
+//   updated_at: Date;
+// };
 
 export type BrandProps = {
   brand: string;
@@ -23,11 +25,20 @@ export type BrandsContextProps = {
   fetchBrands: () => void;
 };
 
-export type PricesProps = { brand: string };
+export type PricesProps = {
+  model_id: Number;
+  id: Number;
+  date_added: Date;
+  price: number;
+  created_at: Date;
+  updated_at: Date;
+};
 
 export type PricesContextProps = {
-  prices: PriceProps[];
-  fetchPrices: () => void;
+  prices: PricesProps[];
+  fetchPrices: (id: string) => void;
+  changeTempId: (id: Number) => void;
+  tempId: string;
 };
 
 export type PhonesProps = {
@@ -42,7 +53,11 @@ export type PhonesCollectionContextProps = {
   phones: PhonesProps[];
   fetchPhones: () => void;
   getSinglePhone: (id: Number) => void;
-  filter: (brand: string, price: number | string) => PhonesProps[];
+  filter: (brand: string, price: number | string) => void;
+  sortBy: (propertyName: keyof TableData) => void;
+  getSortDirection: (
+    property: keyof TableData
+  ) => React.ReactElement<any> | null;
 };
 
 export type ChildrenProps = {
@@ -50,5 +65,29 @@ export type ChildrenProps = {
 };
 
 export type MyParams = {
-  id: string;
+  id?: string;
+  phoneId?: string;
+};
+
+// Sorting
+
+export interface TableData {
+  brand_name?: string;
+  model?: string;
+  release_price?: Number;
+  id?: Number;
+}
+export interface SortingConfiguration {
+  propertyName: keyof TableData;
+  sortType: SortingType;
+}
+
+export enum SortingType {
+  Ascending,
+  Descending,
+}
+
+export type TableColumn = {
+  label: string;
+  property: string;
 };

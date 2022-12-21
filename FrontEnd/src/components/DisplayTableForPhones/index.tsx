@@ -11,9 +11,12 @@ import Paper from "@mui/material/Paper";
 import { Button, TableHead } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
+import { TableColumn } from "../../types";
 
 export default function DisplayTableForPhones() {
-  let { phones, fetchPhones } = React.useContext(CollectionOfPhonesContext);
+  let { phones, fetchPhones, sortBy, getSortDirection } = React.useContext(
+    CollectionOfPhonesContext
+  );
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -50,24 +53,36 @@ export default function DisplayTableForPhones() {
       return;
     }
   }
+  const tableColumn = [
+    { label: "Brand", property: "brand_name" },
+    { label: "Price", property: "release_price" },
+  ] as TableColumn[];
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "25px" }} align="right">
-              Index
+            <TableCell sx={{ width: "100px" }} align="center">
+              date
             </TableCell>
-            <TableCell sx={{ minWidth: "100px" }} align="center">
-              Brand
-            </TableCell>
-            <TableCell sx={{ minWidth: "100px" }} align="center">
+            {tableColumn.map((el) => (
+              <TableCell
+                onClick={() => sortBy(el.property)}
+                sx={{ width: "100px" }}
+                align="center"
+              >
+                <span>
+                  {el.label}
+                  {getSortDirection(el.property)}
+                </span>
+              </TableCell>
+            ))}
+
+            <TableCell sx={{ width: "100px" }} align="center">
               Model
             </TableCell>
-            <TableCell sx={{ minWidth: "100px" }} align="center">
-              Price&nbsp;(£)
-            </TableCell>
+
             <TableCell sx={{ width: "100px" }} align="center" />
           </TableRow>
         </TableHead>
@@ -79,8 +94,8 @@ export default function DisplayTableForPhones() {
             <TableRow key={i}>
               <TableCell align="center">{row.release_date}</TableCell>
               <TableCell align="center">{row.brand_name}</TableCell>
-              <TableCell align="center">{row.model}</TableCell>
               <TableCell align="center">{row.release_price}</TableCell>
+              <TableCell align="center">{row.model}</TableCell>
               <TableCell
                 align="center"
                 sx={{
