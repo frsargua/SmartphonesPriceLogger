@@ -13,30 +13,12 @@ use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class BrandControllers extends Controller
 {
-
-    //    public function store(Request $request){
-    //     $brand =  new brands;
-    //     $brand->brand = $request->brand;
-    //     $brand->save();
-    // }
-       public function store(Request $request){
-        
-        $validator = FacadesValidator::make($request->all(), [
-            'brand'=>['required','string','unique:brands,brand','min:3','max:10']
-        ]);
-
-        if ($validator->fails()) {
-            abort(404, $validator->errors());
-        }
-
-        $brand =  new brands;
-        $brand->brand = $request->brand;
-        $brand->save();
-
-        // return $brand->response();
-
-        return $brand;
+       public function store(BrandRequest $request){
+        $newBrand =  brands::create($request->validated());
+        return response()->json($newBrand);
     }
+
+    
        public function show(){
         $brand = brands::select('brand')->get();
         return $brand;
