@@ -14,7 +14,7 @@ class brands extends Model
 
     protected $primaryKey='id';
 
-    protected $fillable=['name'];
+    protected $fillable=['brand'];
 
     public function phones()
     {
