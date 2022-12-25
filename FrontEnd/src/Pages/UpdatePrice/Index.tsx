@@ -12,12 +12,14 @@ import { fetchData } from "../../utils";
 import { PricesContext } from "../../context/PricesContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ErrorText } from "../../components/ErrorText";
 
 export function UpdatePrice() {
   const navigate = useNavigate();
   const { id, phoneId } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
-
+  let [error, setError] = React.useState<string | boolean>(false);
   const [value, setValue] = React.useState<String>("");
   const [price, setPrice] = React.useState<Number>(100);
 
@@ -44,21 +46,15 @@ export function UpdatePrice() {
       price: price,
     };
     try {
-      let response = await fetch(updatePriceById(String(id), String(phoneId)), {
-        method: "PUT",
-        body: JSON.stringify({ ...body }),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+      await axios.put(updatePriceById(String(id), String(phoneId)), {
+        ...body,
       });
-      if (response.ok) {
-        fetchPrices(String(id));
-        navigate(`/prices/${phoneId}`, { replace: true });
+      fetchPrices(String(id));
+      navigate(`/prices/${phoneId}`, { replace: true });
+    } catch (err) {
+      if (err.response.status === 422) {
+        setError(err.response.data.message);
       }
-    } catch (error) {
-      console.error("Error in POST request:", error);
-      return;
     }
   }
 
@@ -124,6 +120,7 @@ export function UpdatePrice() {
               )}
             />
           </LocalizationProvider>
+          {error ? <ErrorText errorMessage={error} /> : ""}
           <Button type="submit" variant="contained">
             Change
           </Button>

@@ -31,6 +31,7 @@ export function Filter() {
       filter("clear", "clear");
     }
   };
+
   const handleChangeSelectPrice = (event: SelectChangeEvent) => {
     setPrice(event.target.value as string);
     let newPrice = parseInt(event.target.value);

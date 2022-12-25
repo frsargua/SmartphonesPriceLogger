@@ -43,6 +43,11 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
     setSortState(data);
   }
 
+  useEffect(() => {
+    fetchPhones();
+    return;
+  }, []);
+
   function getSinglePhone(id: Number) {
     if (phones.length > 0) {
       return phones.filter((el) => el.id === id);
@@ -145,11 +150,6 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
     setPhones(newSorted);
   }, [sortConfig, sortState]);
 
-  useEffect(() => {
-    fetchPhones();
-    return;
-  }, []);
-
   let value = {
     phones: phones,
     fetchPhones: fetchPhones,
@@ -158,6 +158,7 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
     sortBy: sortBy,
     getSortDirection: getSortDirection,
   };
+
   return (
     <CollectionOfPhonesContext.Provider value={value}>
       {children}

@@ -13,7 +13,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { createPhone } from "../../utils/URIs";
+import { ErrorText } from "../ErrorText/index";
 
 export function CreatePhone() {
   let { brands } = useContext(BrandsContext);
@@ -23,6 +25,7 @@ export function CreatePhone() {
   const [date, setDate] = React.useState<Dayjs | null>(dayjs());
   const [model, setModel] = React.useState<string>();
   const [price, setPrice] = React.useState<Number | null>();
+  let [error, setError] = React.useState<string | boolean>(false);
 
   const clearStates = (): void => {
     setBrand("");
@@ -56,19 +59,14 @@ export function CreatePhone() {
     };
 
     try {
-      let response = await fetch("http://127.0.0.1:8000/api/phones", {
-        method: "POST",
-        body: JSON.stringify({ ...body }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response) {
-        fetchPhones();
-        clearStates();
+      await axios.post(createPhone(), { ...body });
+      fetchPhones();
+      clearStates();
+    } catch (err) {
+      if (err.response.status === 422) {
+        console.log(err);
+        setError(err.response.data.message);
       }
-    } catch (error) {
-      console.error("Error in POST request:", error);
-      return;
     }
   }
 
@@ -136,6 +134,7 @@ export function CreatePhone() {
           Add
         </Button>
       </Box>
+      {error ? <ErrorText errorMessage={error} /> : ""}
     </>
   );
 }

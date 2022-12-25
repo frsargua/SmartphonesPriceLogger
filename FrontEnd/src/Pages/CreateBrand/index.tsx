@@ -1,19 +1,16 @@
 import * as React from "react";
-import {
-  Button,
-  TextField,
-  Typography,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrandsContext } from "../../context/BrandsContext";
-import { fetchData } from "../../utils/index";
-import { parse } from "node:path/win32";
+import { createBrand } from "../../utils/URIs";
+import axios from "axios";
+import { ErrorText } from "../../components/ErrorText/index";
 
 export function CreateBrand() {
   let [newBrand, setNewBrand] = useState("");
+  let [error, setError] = useState<string | boolean>(false);
   let { fetchBrands } = React.useContext(BrandsContext);
 
   const navigate = useNavigate();
@@ -26,30 +23,15 @@ export function CreateBrand() {
     e.preventDefault();
 
     try {
-      let response = await fetch("http://127.0.0.1:8000/api/brand", {
-        method: "POST",
-        body: JSON.stringify({ brand: newBrand }),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-
-      if (response.ok) {
-        fetchBrands();
-        navigate(`/`, { replace: true });
-      }
-
-      if (!response.ok) {
-        let jsonResponse = await response.json();
-        throw new Error(jsonResponse.message);
-      }
+      await axios.post(createBrand(), { brand: newBrand.toLowerCase() });
+      fetchBrands();
+      navigate(`/`, { replace: true });
     } catch (err) {
-      console.error("Error in POST request:", err);
-      return;
+      if (err.response.status === 422) {
+        setError(err.response.data.message);
+      }
     }
   }
-
   return (
     <>
       <Box
@@ -71,7 +53,7 @@ export function CreateBrand() {
           fontWeight={700}
           gutterBottom
         >
-          Add a new phone
+          Add a new brand
         </Typography>
         <Box
           component="form"
@@ -88,9 +70,10 @@ export function CreateBrand() {
             margin="normal"
             required
             aria-label="brand-input"
-            InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
+            InputProps={{ inputProps: { min: "3", max: "15", step: "1" } }}
             onChange={handleChange}
           />
+          {error ? <ErrorText errorMessage={error} /> : ""}
           <Button aria-label="add-brand-btn" type="submit" variant="contained">
             Add
           </Button>

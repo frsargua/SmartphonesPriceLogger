@@ -10,16 +10,21 @@ import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import { useParams } from "react-router-dom";
 import { MyParams } from "../../types";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getPhoneById, updatePhoneById } from "../../utils/URIs";
+import { ErrorText } from "../../components/ErrorText";
+import { fetchData } from "../../utils/index";
 
 export function UpdatePhone() {
   const navigate = useNavigate();
   const { id } = useParams<keyof MyParams>() as MyParams;
   let { brands } = useContext(BrandsContext);
-  let { phones, fetchPhones } = React.useContext(CollectionOfPhonesContext);
+  let { fetchPhones } = React.useContext(CollectionOfPhonesContext);
   const [brand, setBrand] = React.useState<string>("");
   const [model, setModel] = React.useState<string>();
   const [price, setPrice] = React.useState<Number>();
+  let [error, setError] = React.useState<string | boolean>(false);
 
   const handleChangeSelect = (event: SelectChangeEvent) => {
     setBrand(event.target.value as string);
@@ -40,34 +45,25 @@ export function UpdatePhone() {
       release_price: price,
     };
     try {
-      let response = await fetch(`http://127.0.0.1:8000/api/phones/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({ ...body }),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-
-      console.log(body);
-      console.log(response.json());
-
-      if (response.ok) {
-        fetchPhones();
-        navigate(`/`, { replace: true });
+      await axios.put(updatePhoneById(id), { ...body });
+      fetchPhones();
+      navigate(`/`, { replace: true });
+    } catch (err) {
+      if (err.response.status === 422) {
+        setError(err.response.data.message);
       }
-    } catch (error) {
-      console.error("Error in POST request:", error);
-      return;
     }
   }
 
+  async function getSinglePhone(id: string) {
+    let data = await fetchData(getPhoneById(id));
+    setPrice(data.release_price);
+    setModel(data.model);
+    setBrand(data.brand_name);
+  }
+
   React.useEffect(() => {
-    console.log(phones);
-    let singlePhone = phones.filter((el) => el.id == parseInt(id))[0];
-    setBrand(singlePhone.brand_name);
-    setModel(singlePhone.model);
-    setPrice(singlePhone.release_price);
+    getSinglePhone(String(id));
   }, []);
 
   return (
@@ -137,6 +133,7 @@ export function UpdatePhone() {
           <Button type="submit" variant="contained">
             Change
           </Button>
+          {error ? <ErrorText errorMessage={error} /> : ""}
         </Box>
       </Box>
     </>
