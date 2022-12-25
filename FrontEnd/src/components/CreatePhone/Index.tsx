@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import axios from "axios";
-import { createPhone } from "../../utils/URIs";
+import { createPhone, createPriceById } from "../../utils/URIs";
 import { ErrorText } from "../ErrorText/index";
 
 export function CreatePhone() {
@@ -59,7 +59,16 @@ export function CreatePhone() {
     };
 
     try {
-      await axios.post(createPhone(), { ...body });
+      let response = await axios.post(createPhone(), { ...body });
+
+      let newPriceObj = {
+        model_id: response.data.id,
+        date_added: response.data.release_date,
+        price: response.data.release_price,
+      };
+
+      let newPrice = await axios.post(createPriceById(), { ...newPriceObj });
+
       fetchPhones();
       clearStates();
     } catch (err) {
@@ -87,8 +96,6 @@ export function CreatePhone() {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={brand}
-            variant="filled"
-            size="small"
             label="Brand"
             required
             onChange={handleChangeSelect}
@@ -102,18 +109,16 @@ export function CreatePhone() {
         </FormControl>
         <TextField
           label="Model"
-          variant="filled"
-          size="small"
           required
           value={model}
           onChange={handleModelChange}
           margin="normal"
+          type={"text"}
         />
         <TextField
           label="Price"
-          variant="filled"
-          size="small"
           required
+          type="number"
           value={price}
           onChange={handlePriceChange}
           margin="normal"
@@ -125,12 +130,10 @@ export function CreatePhone() {
             inputFormat="YYYY-MM-DD"
             value={date}
             onChange={selectDate}
-            renderInput={(params) => (
-              <TextField required variant="filled" size="small" {...params} />
-            )}
+            renderInput={(params) => <TextField required {...params} />}
           />
         </LocalizationProvider>
-        <Button type="submit" size="large">
+        <Button type="submit" variant="outlined" size="large">
           Add
         </Button>
       </Box>
