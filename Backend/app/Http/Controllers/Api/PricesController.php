@@ -29,6 +29,7 @@ class PricesController extends Controller
         return $price;
 
     }
+
     public function showSinglePrice($id){
         $price = prices::where('id', $id)->get();
         return $price;

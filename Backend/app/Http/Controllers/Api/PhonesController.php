@@ -20,14 +20,6 @@ class PhonesController extends Controller
         $phone->save();
         return $phone;
     }
-    // public function store(Request $request){
-    //     $phone =  new phones;
-    //     $phone->brand_name = $request->brand_name;
-    //     $phone->model = $request->model;
-    //     $phone->release_date = $request->release_date;
-    //     $phone->release_price = $request->release_price;
-    //     $phone->save();
-    // }
     
     public function show(){
         $phone = DB::table('phones')->get();
@@ -44,7 +36,7 @@ class PhonesController extends Controller
         abort(404, 'this Item does not exists');
     }
 
-    public function update(PhonesRequestUpdate $request, $id){
+    public function update(PhonesRequestUpdate $request, $id, phones $phone){
         $phone = phones::find($id);
         $phone->brand_name = $request->brand_name;
         $phone->model = $request->model;
