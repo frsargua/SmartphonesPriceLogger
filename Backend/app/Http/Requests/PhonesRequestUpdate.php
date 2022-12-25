@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PhonesRequestUpdate extends FormRequest
 {
@@ -25,7 +26,7 @@ class PhonesRequestUpdate extends FormRequest
     {
         return [
             'brand_name'=>['required','min:3','max:10'],
-            'model'=>['required','unique:phones,model','min:1','max:15'],
+            'model'=>['required',Rule::unique('phones')->ignore($this->id)],
             'release_price'=>['required','integer', 'max:3000', 'min:10']
         ];
     }
