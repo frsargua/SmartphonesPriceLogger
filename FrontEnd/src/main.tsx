@@ -5,15 +5,18 @@ import { BrandsProvider } from "./context/BrandsContext";
 import { CollectionOfPhonesProvider } from "./context/PhoneListContext";
 import { PricesProvider } from "./context/PricesContext";
 import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <BrandsProvider>
-      <PricesProvider>
-        <CollectionOfPhonesProvider>
-          <App />
-        </CollectionOfPhonesProvider>
-      </PricesProvider>
-    </BrandsProvider>
+    <BrowserRouter>
+      <BrandsProvider>
+        <PricesProvider>
+          <CollectionOfPhonesProvider>
+            <App />
+          </CollectionOfPhonesProvider>
+        </PricesProvider>
+      </BrandsProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

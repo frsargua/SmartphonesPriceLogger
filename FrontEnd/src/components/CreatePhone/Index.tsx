@@ -101,7 +101,7 @@ export function CreatePhone() {
             onChange={handleChangeSelect}
           >
             {brands.map((el) => (
-              <MenuItem aria-label="brand-selectors" value={el.brand}>
+              <MenuItem data-testid="brand-selectors" value={el.brand}>
                 {el.brand}
               </MenuItem>
             ))}

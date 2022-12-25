@@ -63,11 +63,13 @@ export function CreateBrand() {
             width: "100%",
           }}
           onSubmit={handleSubmit}
+          data-testid="form"
         >
           <TextField
             label="New Brand"
             variant="filled"
             margin="normal"
+            data-testid="add-brand-text-field"
             required
             aria-label="brand-input"
             InputProps={{ inputProps: { min: "3", max: "15", step: "1" } }}

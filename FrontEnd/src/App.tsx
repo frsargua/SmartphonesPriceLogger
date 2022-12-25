@@ -10,7 +10,7 @@ import { UpdatePrice } from "./Pages/UpdatePrice/Index";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Container maxWidth="lg">
         <Routes>
@@ -21,7 +21,7 @@ function App() {
           <Route path="/prices/:id" element={<Prices />} />
         </Routes>
       </Container>
-    </BrowserRouter>
+    </>
   );
 }
 
