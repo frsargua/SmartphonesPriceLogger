@@ -25,7 +25,7 @@ class PhonesRequest extends FormRequest
     {
         return [
             'brand_name'=>['required','min:3','max:10'],
-            'model'=>['required','min:1','max:15'],
+            'model'=>['required','unique:phones,model','min:1','max:15'],
             'release_date'=>['required','date'],
             'release_price'=>['required','integer', 'max:3000', 'min:10']
         ];
