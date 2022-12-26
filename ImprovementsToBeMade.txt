@@ -1,12 +1,11 @@
-
-
 Improvements to be made:
 
-- integrate a 3rd party API for the brands and the company names.
+- integrate a 3rd party API for the brands or the company names.
     Why?
     It would help the news API to find the news related to the company and not to something else.
         e.g. the word "apple" will give results for the fruit and the company.
 - integrate a 3rd party API for the phone models
+- 
 
 
 
@@ -22,7 +21,7 @@ Issues faced :
         
         Thoughts:
         - I believe this approach is not responsive enough, because the get request might be slow if the internet speed is slow.
-        - Sorting a filtered list would not work.
+        - Sorting and filtered list would not work.
 
         My approach:
         - I use the phone's state and I apply a sort function using LINQ (an implementation of the .NET LINQ library for data processing) to sort the data based on the 'SORT-CONFIGURATION' state.
@@ -37,3 +36,4 @@ Comments:
     - I believe that my approach to filtering the data can be improved. I will be working on improving it since I am interested in ways to improve it (perhaps using an npm package).
     - Laravel was very intuitive to use. In some cases, it reminded me a lot to Sequelize.
     - The Laravel's documentation is very well written. So, getting around figuring things out was pretty smooth. 
+
