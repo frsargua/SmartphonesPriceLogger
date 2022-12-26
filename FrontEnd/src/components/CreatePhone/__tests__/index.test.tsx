@@ -17,9 +17,9 @@ describe("Add new brand", () => {
       .getByTestId("add-brand-text-field")
       .querySelector("input");
 
-    const form = await renderApp.getByTestId("form");
     fireEvent.change(field, { target: { value: name } });
     expect(field.value).toBe(name);
+    const form = await renderApp.getByTestId("form");
 
     fireEvent.submit(form);
 
