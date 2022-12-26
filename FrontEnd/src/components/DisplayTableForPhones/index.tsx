@@ -12,6 +12,7 @@ import { Button, TableHead } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import { TableColumn } from "../../types";
+import { deletePhoneById } from "../../utils/URIs";
 
 export default function DisplayTableForPhones() {
   let { phones, fetchPhones, sortBy, getSortDirection } = React.useContext(
@@ -40,7 +41,7 @@ export default function DisplayTableForPhones() {
 
   async function deletePhone(id: Number) {
     try {
-      let response = await fetch(`http://127.0.0.1:8000/api/phones/${id}`, {
+      let response = await fetch(deletePhoneById(String(id)), {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

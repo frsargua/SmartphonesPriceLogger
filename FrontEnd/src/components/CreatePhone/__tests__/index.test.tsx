@@ -1,13 +1,9 @@
 import "@testing-library/jest-dom";
 import { faker } from "@faker-js/faker";
 import { render, fireEvent } from "@testing-library/react";
-import user from "@testing-library/user-event";
 import { CreateBrand } from "../../../Pages/CreateBrand/index";
-import { error } from "console";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
-import { ReactElement } from "react";
 
 describe("Add new brand", () => {
   it("Testing if a new brand is added to the database", async () => {
