@@ -46,7 +46,7 @@ export default function DisplayTableForPhones() {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (response) {
+      if (response.ok) {
         fetchPhones();
       }
     } catch (error) {

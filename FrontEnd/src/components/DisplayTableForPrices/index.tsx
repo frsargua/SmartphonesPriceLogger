@@ -16,10 +16,10 @@ import { useParams } from "react-router-dom";
 import { deletePriceById } from "../../utils/URIs";
 
 export default function DisplayTableForPrices({ model }: { model: string }) {
-  const { id } = useParams<keyof MyParams>() as MyParams;
+  const { id: phoneId } = useParams<keyof MyParams>() as MyParams;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  let { prices, changeTempId, fetchPrices } = useContext(PricesContext);
+  let { prices, fetchPrices } = useContext(PricesContext);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -46,8 +46,8 @@ export default function DisplayTableForPrices({ model }: { model: string }) {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (response) {
-        changeTempId(id);
+      if (response.ok) {
+        fetchPrices(String(phoneId));
       }
     } catch (error) {
       console.error("Error in POST request:", error);
@@ -96,7 +96,9 @@ export default function DisplayTableForPrices({ model }: { model: string }) {
               >
                 <Button onClick={() => deletePrice(row.id)}>Delete</Button>
                 <Button>
-                  <Link to={`/update-price/${model}/${row.id}`}>Update</Link>
+                  <Link to={`/update-price/${model}/${phoneId}/${row.id}`}>
+                    Update
+                  </Link>
                 </Button>
               </TableCell>
             </TableRow>

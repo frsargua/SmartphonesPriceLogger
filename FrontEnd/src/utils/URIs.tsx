@@ -52,8 +52,8 @@ export function deletePriceById(id: string): string {
   return `${base}/api/price/${id}`;
 }
 
-export function updatePriceById(id: string, phoneId: string): string {
-  return `${base}/api/price/${phoneId}/${id}`;
+export function updatePriceById(id: string, model: string): string {
+  return `${base}/api/price/${model}/${id}`;
 }
 
 // News

@@ -17,7 +17,7 @@ import { ErrorText } from "../../components/ErrorText";
 
 export function UpdatePrice() {
   const navigate = useNavigate();
-  const { id, phoneId, model } = useParams<keyof MyParams>() as MyParams;
+  const { id, model, phoneId } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
   let [error, setError] = React.useState<string | boolean>(false);
   const [value, setValue] = React.useState<String>("");
@@ -46,11 +46,11 @@ export function UpdatePrice() {
     };
 
     try {
-      await axios.put(updatePriceById(String(id), String(phoneId)), {
+      await axios.put(updatePriceById(String(id), String(model)), {
         ...body,
       });
       fetchPrices(String(id));
-      navigate(`/prices/${model}/${id}`, { replace: true });
+      navigate(`/prices/${model}/${phoneId}`, { replace: true });
     } catch (err) {
       if (err.response.status === 422) {
         setError(err.response.data.message);

@@ -18,7 +18,10 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/create-brand" element={<CreateBrand />} />
           <Route path="/update-phone/:id" element={<UpdatePhone />} />
-          <Route path="/update-price/:model/:id" element={<UpdatePrice />} />
+          <Route
+            path="/update-price/:model/:phoneId/:id"
+            element={<UpdatePrice />}
+          />
           <Route path="/news/:topic" element={<News />} />
           <Route path="/prices/:model/:id" element={<Prices />} />
         </Routes>
