@@ -17,7 +17,7 @@ import { ErrorText } from "../../components/ErrorText";
 
 export function UpdatePrice() {
   const navigate = useNavigate();
-  const { id, phoneId } = useParams<keyof MyParams>() as MyParams;
+  const { id, phoneId, model } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
   let [error, setError] = React.useState<string | boolean>(false);
   const [value, setValue] = React.useState<String>("");
@@ -50,7 +50,7 @@ export function UpdatePrice() {
         ...body,
       });
       fetchPrices(String(id));
-      navigate(`/prices/${phoneId}`, { replace: true });
+      navigate(`/prices/${model}/${id}`, { replace: true });
     } catch (err) {
       if (err.response.status === 422) {
         setError(err.response.data.message);

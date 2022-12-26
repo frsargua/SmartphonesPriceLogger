@@ -15,7 +15,7 @@ import { MyParams } from "../../types";
 import { useParams } from "react-router-dom";
 import { deletePriceById } from "../../utils/URIs";
 
-export default function DisplayTableForPrices() {
+export default function DisplayTableForPrices({ model }: { model: string }) {
   const { id } = useParams<keyof MyParams>() as MyParams;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -96,7 +96,7 @@ export default function DisplayTableForPrices() {
               >
                 <Button onClick={() => deletePrice(row.id)}>Delete</Button>
                 <Button>
-                  <Link to={`/update-price/${id}/${row.id}`}>Update</Link>
+                  <Link to={`/update-price/${model}/${row.id}`}>Update</Link>
                 </Button>
               </TableCell>
             </TableRow>

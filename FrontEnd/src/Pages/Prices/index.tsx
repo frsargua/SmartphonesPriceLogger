@@ -39,7 +39,7 @@ export function Prices() {
       <Typography variant="h3" mb={2}>
         Table of Prices
       </Typography>
-      <DisplayTableForPrices />
+      <DisplayTableForPrices model={model} />
     </>
   );
 }
