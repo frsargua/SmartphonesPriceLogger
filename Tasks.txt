@@ -11,45 +11,42 @@ Brand table ( contains all the brands available) --> one to many --> Phone table
 FrontEnd Layout
 
 - Main Page
-    - Show all phones (brand, date added, initial price and ????)
+    - Show all phones (brand_name, model ,release_date, release_price)
     - functionalities 
         - Delete phone
         - Update phone
-        - Stats phone
+        - Create phone
+        - Stats phone (get a chart displaying all the prices for that model)
 
 - Prices Page
-    - Show all prices for a ( date of log, price and depreciation )
+    - Show all prices for a phone model in a chart
     - functionalities 
         - Delete price
         - Update price
+        - create price
 
 - Update Pages:
     - Update phone details
     - Update price details
 
-- Create Pages:
-    - Add brand details
-    - Add new phone 
-    - Add new set of price 
 
 BackEnd Table Layout:
 
 - Brands
     - Id
-    - Name
+    - Brand
 
 - Models
     - Id
-    - Brand (reference key id of Brands)
+    - Brand_name (reference key Brand of Brands)
     - Model
     - Release_price
     - release_date
 
 - Prices
     - Id
-    - Model (reference key id of Models)
-    - Year
-    - Month
+    - Model_id (reference key id of Models)
+    - date_added
     - Price
 
 BackEnd APIs:
