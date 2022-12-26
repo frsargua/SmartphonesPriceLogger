@@ -45,12 +45,18 @@ export function UpdatePhone() {
       release_price: price,
     };
     try {
-      await axios.put(updatePhoneById(id), { ...body });
-      fetchPhones();
-      navigate(`/`, { replace: true });
+      if (id) {
+        await axios.put(updatePhoneById(id), { ...body });
+        fetchPhones();
+        navigate(`/`, { replace: true });
+      } else {
+        throw Error("id not provided");
+      }
     } catch (err) {
       if (err.response.status === 422) {
         setError(err.response.data.message);
+      } else {
+        console.error(err);
       }
     }
   }
@@ -115,7 +121,7 @@ export function UpdatePhone() {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>{" "}
+          </FormControl>
           <TextField
             label="Model"
             value={model}

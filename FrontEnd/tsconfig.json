@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "useUnknownInCatchVariables": false,
     "paths": {
       "__tests__": ["./components/CreatePhone/__tests__"]
     }

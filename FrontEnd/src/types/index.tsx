@@ -1,18 +1,4 @@
-export type PhoneProps = {
-  brand_name?: number;
-  model?: string;
-  price?: number;
-  id?: number;
-};
-
-// export type PriceProps = {
-//   model_id: Number;
-//   id: Number;
-//   date_added: Date;
-//   price: number;
-//   created_at: Date;
-//   updated_at: Date;
-// };
+// Types mainly use for the brands useContext
 
 export type BrandProps = {
   brand: string;
@@ -24,6 +10,8 @@ export type BrandsContextProps = {
   brands: BrandProps[];
   fetchBrands: () => void;
 };
+
+// Types mainly use for the prices useContext
 
 export type PricesProps = {
   model_id: Number;
@@ -37,8 +25,14 @@ export type PricesProps = {
 export type PricesContextProps = {
   prices: PricesProps[];
   fetchPrices: (id: string) => void;
-  changeTempId: (id: Number) => void;
-  tempId: string;
+};
+
+// Types mainly use for the phones useContext
+export type PhoneProps = {
+  brand_name?: number;
+  model?: string;
+  price?: number;
+  id?: number;
 };
 
 export type PhonesProps = {
@@ -52,7 +46,7 @@ export type PhonesProps = {
 export type PhonesCollectionContextProps = {
   phones: PhonesProps[];
   fetchPhones: () => void;
-  getSinglePhone: (id: Number) => void;
+
   filter: (brand: string, price: number | string) => void;
   sortBy: (propertyName: keyof TableData) => void;
   getSortDirection: (
@@ -64,9 +58,11 @@ export type ChildrenProps = {
   children?: React.ReactNode;
 };
 
+// For the url parameters
 export type TopicParams = {
   topic: string;
 };
+
 export type MyParams = {
   id?: string;
   topic?: string;
@@ -91,7 +87,6 @@ export enum SortingType {
   Ascending,
   Descending,
 }
-
 export type TableColumn = {
   label: string;
   property: string;

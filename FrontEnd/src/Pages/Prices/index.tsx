@@ -14,7 +14,9 @@ export function Prices() {
   let { prices, fetchPrices } = useContext(PricesContext);
 
   useEffect(() => {
-    fetchPrices(id);
+    if (id) {
+      fetchPrices(id);
+    }
 
     return;
   }, []);
@@ -39,7 +41,7 @@ export function Prices() {
       <Typography variant="h3" mb={2}>
         Table of Prices
       </Typography>
-      <DisplayTableForPrices model={model} />
+      <DisplayTableForPrices model={model ? model : "unknown"} />
     </>
   );
 }

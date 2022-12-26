@@ -1,6 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { BrandsProps, ChildrenProps, BrandsContextProps } from "../types";
-
 import { fetchData } from "../utils/index";
 import { getBrands } from "../utils/URIs";
 

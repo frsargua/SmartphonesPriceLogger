@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -33,7 +33,6 @@ export function UpdatePrice() {
 
   async function getSinglePrice(id: string) {
     let data = await fetchData(getAllPriceById(id));
-
     setPrice(data[0].price);
     setValue(data[0].date_added);
   }
@@ -45,6 +44,7 @@ export function UpdatePrice() {
       date_added: value,
       price: price,
     };
+
     try {
       await axios.put(updatePriceById(String(id), String(phoneId)), {
         ...body,
@@ -60,7 +60,6 @@ export function UpdatePrice() {
 
   React.useEffect(() => {
     getSinglePrice(String(id));
-    console.log(value);
     return;
   }, []);
 

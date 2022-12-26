@@ -1,12 +1,11 @@
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
-import React, {
+import {
   createContext,
   useCallback,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import Enumerable from "linq";
 import {
   PhonesProps,
   ChildrenProps,
@@ -14,9 +13,9 @@ import {
   SortingConfiguration,
   SortingType,
   TableData,
-  TableColumn,
 } from "../types";
 
+import Enumerable from "linq";
 import { fetchData } from "../utils/index";
 import { getAllPhones } from "../utils/URIs";
 
@@ -25,22 +24,19 @@ export const CollectionOfPhonesContext =
     phones: [],
     fetchPhones: () => {},
     sortBy: (propertyName: keyof TableData) => {},
-    getSinglePhone: (id: Number) => {},
     filter: (brand: string, price: number | string) => {},
     getSortDirection: () => <div></div>,
   });
 
 export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
   const [phones, setPhones] = useState<PhonesProps[]>([]);
-  const [sortConfig, updateSortConfig] = useState<SortingConfiguration[]>([]);
   const [phonesFilter, setPhonesFilter] = useState<PhonesProps[]>([]);
-  const [sortState, setSortState] = useState<PhonesProps[]>([]);
+  const [sortConfig, updateSortConfig] = useState<SortingConfiguration[]>([]);
 
   async function fetchPhones() {
     let data = await fetchData(getAllPhones());
     setPhones(data);
     setPhonesFilter(data);
-    setSortState(data);
   }
 
   useEffect(() => {
@@ -48,28 +44,16 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
     return;
   }, []);
 
-  function getSinglePhone(id: Number) {
-    if (phones.length > 0) {
-      return phones.filter((el) => el.id === id);
-    }
-  }
-
   const filter = (brand: string, price: number | string) => {
     if (brand == "clear" && price != "clear") {
-      console.log("one");
       let filter = phonesFilter.filter((el) => el.release_price < price);
       setPhones(filter);
     } else if (brand != "clear" && price == "clear") {
-      console.log("two");
       let filter = phonesFilter.filter(
         (el) => el.brand_name.toLowerCase() == brand.toLocaleLowerCase()
       );
-      console.log(filter);
       setPhones(filter);
     } else if (brand != "clear" && price != "clear") {
-      console.log("three");
-      console.log(brand, price);
-      console.log(phones, phonesFilter);
       let filter = phonesFilter.filter(
         (el) =>
           el.release_price < price &&
@@ -125,7 +109,6 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
   };
 
   const sortedRows = useMemo(() => {
-    //Loop through the queue
     let sorted = Enumerable.from(phones).orderBy(() => 1);
     sortConfig.forEach((sortConfig) => {
       if (sortConfig.sortType === SortingType.Ascending) {
@@ -143,17 +126,16 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
       }
     });
     return sorted.toArray();
-  }, [sortConfig, sortState]);
+  }, [sortConfig]);
 
   useEffect(() => {
     let newSorted = sortedRows;
     setPhones(newSorted);
-  }, [sortConfig, sortState]);
+  }, [sortConfig]);
 
   let value = {
     phones: phones,
     fetchPhones: fetchPhones,
-    getSinglePhone: getSinglePhone,
     filter: filter,
     sortBy: sortBy,
     getSortDirection: getSortDirection,
