@@ -113,7 +113,7 @@ export default function DisplayTableForPhones() {
                   <Link to={`/update-phone/${row.id}`}>Update</Link>
                 </Button>
                 <Button>
-                  <Link to={`/prices/${row.id}`}>Stats</Link>
+                  <Link to={`/prices/${row.model}/${row.id}`}>Stats</Link>
                 </Button>
               </TableCell>
             </TableRow>

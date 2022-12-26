@@ -71,6 +71,7 @@ export type MyParams = {
   id?: string;
   topic?: string;
   phoneId?: string;
+  model?: string;
 };
 
 // Sorting

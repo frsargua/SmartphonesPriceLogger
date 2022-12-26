@@ -10,7 +10,7 @@ import { MyParams } from "../../types";
 import { useParams } from "react-router-dom";
 
 export function Prices() {
-  const { id } = useParams<keyof MyParams>() as MyParams;
+  const { id, model } = useParams<keyof MyParams>() as MyParams;
   let { prices, fetchPrices } = useContext(PricesContext);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function Prices() {
   return (
     <>
       <Typography variant="h1" textAlign="center" gutterBottom>
-        Prices
+        {model} Prices
       </Typography>
 
       <Box sx={{ height: { xs: "200px", md: "500px" }, mb: "5rem" }}>

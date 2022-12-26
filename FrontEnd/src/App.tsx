@@ -20,7 +20,7 @@ function App() {
           <Route path="/update-phone/:id" element={<UpdatePhone />} />
           <Route path="/update-price/:phoneId/:id" element={<UpdatePrice />} />
           <Route path="/news/:topic" element={<News />} />
-          <Route path="/prices/:id" element={<Prices />} />
+          <Route path="/prices/:model/:id" element={<Prices />} />
         </Routes>
       </Container>
     </>

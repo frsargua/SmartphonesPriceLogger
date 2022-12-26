@@ -84,7 +84,7 @@ export function Filter() {
             </Select>
           </FormControl>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Price</InputLabel>
+            <InputLabel id="demo-simple-select-label">Price select</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -98,6 +98,14 @@ export function Filter() {
               <MenuItem value={1000}>{"< 1000"}</MenuItem>
             </Select>
           </FormControl>
+          <TextField
+            label="Price input bar"
+            required
+            type="number"
+            value={price}
+            onChange={handleChangeSelectPrice}
+            margin="normal"
+          />
           <Button onClick={clearStates} variant="outlined">
             Clear
           </Button>
