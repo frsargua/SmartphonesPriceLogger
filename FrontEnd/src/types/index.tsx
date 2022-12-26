@@ -64,8 +64,12 @@ export type ChildrenProps = {
   children?: React.ReactNode;
 };
 
+export type TopicParams = {
+  topic: string;
+};
 export type MyParams = {
   id?: string;
+  topic?: string;
   phoneId?: string;
 };
 

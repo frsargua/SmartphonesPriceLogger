@@ -93,7 +93,9 @@ export default function DisplayTableForPhones() {
           ).map((row, i) => (
             <TableRow key={i}>
               <TableCell align="center">{row.release_date}</TableCell>
-              <TableCell align="center">{row.brand_name}</TableCell>
+              <TableCell align="center">
+                <Link to={`/news/${row.brand_name}`}>{row.brand_name}</Link>
+              </TableCell>
               <TableCell align="center">{row.release_price}</TableCell>
               <TableCell align="center">{row.model}</TableCell>
               <TableCell

@@ -44,3 +44,7 @@ export function updatePriceById(id: string, phoneId: string): string {
 export function createBrand(): string {
   return "http://127.0.0.1:8000/api/brand";
 }
+
+export function newsApi(topis: string): string {
+  return `https://newsapi.org/v2/everything?q=${topis}&pageSize=20&sortBy=popularity&apiKey=cd0ed60d4c7141eca5ec4a1e8a198b47`;
+}

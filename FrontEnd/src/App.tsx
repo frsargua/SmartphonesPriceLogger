@@ -1,4 +1,5 @@
 import { Container } from "@mui/system";
+import { News } from "./Pages/News";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/create-brand" element={<CreateBrand />} />
           <Route path="/update-phone/:id" element={<UpdatePhone />} />
           <Route path="/update-price/:phoneId/:id" element={<UpdatePrice />} />
+          <Route path="/news/:topic" element={<News />} />
           <Route path="/prices/:id" element={<Prices />} />
         </Routes>
       </Container>
