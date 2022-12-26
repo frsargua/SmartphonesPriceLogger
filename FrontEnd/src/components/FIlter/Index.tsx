@@ -22,27 +22,30 @@ export function Filter() {
   const handleChangeSelect = (event: SelectChangeEvent) => {
     setBrand(event.target.value as string);
     let newBrand = event.target.value;
+    filter(newBrand, price);
 
-    if (price != "clear") {
-      filter(newBrand, parseInt(price));
-    } else if (price == "clear") {
-      filter(newBrand, "clear");
-    } else {
-      filter("clear", "clear");
-    }
+    // if (price != "clear") {
+    //   filter(newBrand, parseInt(price));
+    // } else if (price == "clear") {
+    //   filter(newBrand, "clear");
+    // } else {
+    //   filter("clear", "clear");
+    // }
   };
 
   const handleChangeSelectPrice = (event: SelectChangeEvent) => {
     setPrice(event.target.value as string);
     let newPrice = parseInt(event.target.value);
 
-    if (brand != "clear") {
-      filter(brand, newPrice);
-    } else if (brand == "clear" && price != "clear") {
-      filter("clear", newPrice);
-    } else {
-      filter("clear", "clear");
-    }
+    filter(brand, newPrice);
+
+    // if (brand != "clear") {
+    //   filter(brand, newPrice);
+    // } else if (brand == "clear" && price != "clear") {
+    //   filter("clear", newPrice);
+    // } else {
+    //   filter("clear", "clear");
+    // }
   };
 
   const clearStates = () => {

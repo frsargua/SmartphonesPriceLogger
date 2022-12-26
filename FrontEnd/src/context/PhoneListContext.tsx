@@ -107,7 +107,6 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
     }
     return null;
   };
-
   const sortedRows = useMemo(() => {
     let sorted = Enumerable.from(phones).orderBy(() => 1);
     sortConfig.forEach((sortConfig) => {
@@ -125,12 +124,7 @@ export const CollectionOfPhonesProvider = ({ children }: ChildrenProps) => {
           .thenByDescending((dataRow) => dataRow[sortConfig.propertyName]);
       }
     });
-    return sorted.toArray();
-  }, [sortConfig]);
-
-  useEffect(() => {
-    let newSorted = sortedRows;
-    setPhones(newSorted);
+    setPhones(sorted.toArray());
   }, [sortConfig]);
 
   let value = {
