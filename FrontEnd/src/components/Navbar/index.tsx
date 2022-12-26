@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, mb: "5rem" }}>
       <AppBar position="static">
         <Container maxWidth="lg">
           <Toolbar

@@ -83,7 +83,7 @@ export default function DisplayTableForPhones() {
               Model
             </TableCell>
 
-            <TableCell sx={{ width: "100px" }} align="center" />
+            <TableCell sx={{ width: "80px" }} align="center" />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -103,6 +103,7 @@ export default function DisplayTableForPhones() {
                 sx={{
                   display: "flex",
                   flexDirection: { xs: "column", md: "row" },
+                  justifyContent: "space-evenly",
                 }}
               >
                 <Button type="button" onClick={() => deletePhone(row.id)}>

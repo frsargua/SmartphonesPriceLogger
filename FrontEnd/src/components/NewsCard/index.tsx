@@ -9,15 +9,6 @@ type ArticleType = {
   link?: string;
 };
 
-// type ArticleType = {
-//   topic?: string;
-//   author?: string;
-//   publishedAt?: Date;
-//   source?: { Id: string; Name: string };
-//   title?: string;
-//   url?: string;
-// };
-
 type PropsType = {
   data?: ArticleType;
 };

@@ -21,7 +21,9 @@ export function Prices() {
 
   return (
     <>
-      <Typography variant="h1">Prices</Typography>
+      <Typography variant="h1" textAlign="center" gutterBottom>
+        Prices
+      </Typography>
 
       <Box sx={{ height: { xs: "200px", md: "500px" }, mb: "5rem" }}>
         <LineChart

@@ -58,7 +58,7 @@ export function CreatePrice() {
 
   return (
     <>
-      <Typography variant="h3">Add phone</Typography>
+      <Typography variant="h3">Add New Price</Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
