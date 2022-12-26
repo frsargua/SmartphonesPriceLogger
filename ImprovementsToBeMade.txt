@@ -1,0 +1,39 @@
+
+
+Improvements to be made:
+
+- integrate a 3rd party API for the brands and the company names.
+    Why?
+    It would help the news API to find the news related to the company and not to something else.
+        e.g. the word "apple" will give results for the fruit and the company.
+- integrate a 3rd party API for the phone models
+
+
+
+Issues faced :
+    - Getting a News-API that provides images. 
+        Initially, I tried 'news API', but I soon realized that it did not have images embedded. I spent more time than expected searching for a free 3rd party API that would provide images.
+    - Getting the sort functionality to work in the back end.
+        My initial idea was to create several GET APIs that would be called, based on the 'SORT-CONFIGURATION' state, to update the 'phones' state. 
+        E.g. 
+            - [Name: Ascending, Price: null]: make a GET request to get the list of phones in ascending order based on the name.
+            - [Name: Ascending, Price: descending]: make a GET request to get the list of phones in ascending order based on the name. Within the ordered groups, sort them by price in ascending order.
+            - [Name: null, price: descending]: make a GET request to get the list of phones in ascending order based on the price.
+        
+        Thoughts:
+        - I believe this approach is not responsive enough, because the get request might be slow if the internet speed is slow.
+        - Sorting a filtered list would not work.
+
+        My approach:
+        - I use the phone's state and I apply a sort function using LINQ (an implementation of the .NET LINQ library for data processing) to sort the data based on the 'SORT-CONFIGURATION' state.
+
+    - React Testing with Vite
+        I had never used testing with Vite before. Hence, I came across issues with babel and packages. This issue took the longest to resolve. I had to reconfigure Vite and install Vitest to get it to work.
+
+
+Comments:
+
+    - When creating the react test, Vite was slow to update the changes in the test. Hence, when I started writing my test, I thought they were not working, but Vite was just taking too long to reload.
+    - I believe that my approach to filtering the data can be improved. I will be working on improving it since I am interested in ways to improve it (perhaps using an npm package).
+    - Laravel was very intuitive to use. In some cases, it reminded me a lot to Sequelize.
+    - The Laravel's documentation is very well written. So, getting around figuring things out was pretty smooth. 
