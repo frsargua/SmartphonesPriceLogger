@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["node", "jest", "vitest/global"],
+    "types": ["node", "jest", "vitest"],
     "jsx": "react-jsx",
     "useUnknownInCatchVariables": false,
     "paths": {
