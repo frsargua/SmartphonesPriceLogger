@@ -1,0 +1,24 @@
+{
+  "name": "smartphonespricelogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frsargua/SmartphonesPriceLogger.git"
+  },
+  "scripts": {
+    "develop": "concurrently \"cd BackEnd && php artisan serve\" \"cd FrontEnd && npm run  dev\" ",
+    "install": "cd FrontEnd && npm i",
+    "build": "cd FrontEnd && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frsargua/SmartphonesPriceLogger/issues"
+  },
+  "homepage": "https://github.com/frsargua/SmartphonesPriceLogger#readme"
+}
