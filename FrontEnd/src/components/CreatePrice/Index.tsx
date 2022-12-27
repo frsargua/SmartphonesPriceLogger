@@ -47,7 +47,7 @@ export function CreatePrice() {
       });
 
       if (response) {
-        fetchPrices(id);
+        fetchPrices(String(id));
         clearStates();
       }
     } catch (error) {

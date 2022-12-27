@@ -73,11 +73,10 @@ export type MyParams = {
 // Sorting
 
 export interface TableData {
-  brand_name?: string;
-  model?: string;
-  release_price?: Number;
-  id?: Number;
+  brand_name: String;
+  release_price: string;
 }
+
 export interface SortingConfiguration {
   propertyName: keyof TableData;
   sortType: SortingType;
@@ -89,5 +88,5 @@ export enum SortingType {
 }
 export type TableColumn = {
   label: string;
-  property: string;
+  property: keyof TableData;
 };

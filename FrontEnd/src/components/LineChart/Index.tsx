@@ -5,7 +5,6 @@ import { enGB } from "date-fns/locale";
 import React from "react";
 import {
   Chart as ChartJS,
-  registerables,
   CategoryScale,
   TimeScale,
   LinearScale,
@@ -18,6 +17,7 @@ import {
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
+import { Box } from "@mui/system";
 
 ChartJS.register(
   TimeScale, //Register timescale instead of category for X axis
@@ -42,8 +42,7 @@ ChartJS.register(
 //   scales
 // );
 
-export const options: ChartOptions = {
-  response: true,
+export const options: ChartOptions<"line"> = {
   scales: {
     y: {
       title: { display: true, text: "Percentage" },
@@ -62,11 +61,10 @@ export const options: ChartOptions = {
 };
 
 interface Props {
-  labels?: string[];
   devaluationData?: { x: Date; y: number }[];
 }
 
-export function LineChart(props: Props) {
+export const LineChart: React.FunctionComponent<Props> = (props: Props) => {
   const { devaluationData } = props;
   let data = {
     datasets: [
@@ -78,5 +76,9 @@ export function LineChart(props: Props) {
       },
     ],
   };
-  return <Line options={options} data={data} />;
-}
+  return (
+    <Box sx={{ maxWidth: "700px", margin: "0 auto" }}>
+      <Line options={options} data={data} />;
+    </Box>
+  );
+};

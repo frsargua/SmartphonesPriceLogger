@@ -23,14 +23,11 @@ export function Filter() {
     setBrand(event.target.value as string);
     let newBrand = event.target.value;
     filter(newBrand, price);
-
-    // if (price != "clear") {
-    //   filter(newBrand, parseInt(price));
-    // } else if (price == "clear") {
-    //   filter(newBrand, "clear");
-    // } else {
-    //   filter("clear", "clear");
-    // }
+  };
+  const handleChangeInput = (event: React.ChangeEvent<any>) => {
+    setBrand(event.target.value as string);
+    let newBrand = event.target.value;
+    filter(newBrand, price);
   };
 
   const handleChangeSelectPrice = (event: SelectChangeEvent) => {
@@ -38,14 +35,6 @@ export function Filter() {
     let newPrice = parseInt(event.target.value);
 
     filter(brand, newPrice);
-
-    // if (brand != "clear") {
-    //   filter(brand, newPrice);
-    // } else if (brand == "clear" && price != "clear") {
-    //   filter("clear", newPrice);
-    // } else {
-    //   filter("clear", "clear");
-    // }
   };
 
   const clearStates = () => {
@@ -106,7 +95,7 @@ export function Filter() {
             required
             type="number"
             value={price}
-            onChange={handleChangeSelectPrice}
+            onChange={handleChangeInput}
             margin="normal"
           />
           <Button onClick={clearStates} variant="outlined">

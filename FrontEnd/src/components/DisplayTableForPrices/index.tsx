@@ -82,7 +82,7 @@ export default function DisplayTableForPrices({ model }: { model: string }) {
           ).map((row, i, arr) => (
             <TableRow key={row.price}>
               <TableCell align="center">{i}</TableCell>
-              <TableCell align="center">{row.date_added}</TableCell>
+              <TableCell align="center">{row.date_added.toString()}</TableCell>
               <TableCell align="center">{row.price}</TableCell>
               <TableCell align="center">
                 {Math.floor((row.price / arr[0].price) * 100)}

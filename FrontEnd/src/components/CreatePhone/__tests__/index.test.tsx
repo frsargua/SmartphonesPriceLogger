@@ -13,9 +13,9 @@ describe("Add new brand", () => {
         <CreateBrand />
       </BrowserRouter>
     );
-    const field = await renderApp
+    const field = (await renderApp
       .getByTestId("add-brand-text-field")
-      .querySelector("input");
+      .querySelector("input")) as HTMLInputElement;
 
     fireEvent.change(field, { target: { value: name } });
     expect(field.value).toBe(name);

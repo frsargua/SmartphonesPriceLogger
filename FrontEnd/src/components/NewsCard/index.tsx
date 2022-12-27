@@ -10,7 +10,7 @@ type ArticleType = {
 };
 
 type PropsType = {
-  data?: ArticleType;
+  data: ArticleType;
 };
 
 export function NewsCard({ data }: PropsType) {
@@ -22,7 +22,7 @@ export function NewsCard({ data }: PropsType) {
             width: "100%",
           }}
         >
-          <a href={data.link}>
+          <a href={data.link} target="_blank">
             <CardMedia
               component="img"
               height="194"
@@ -55,7 +55,9 @@ export function NewsCard({ data }: PropsType) {
             >
               {data.summary}
             </Typography>
-            <Typography variant="body2">{data.published_date}</Typography>
+            <Typography variant="body2">
+              {data.published_date?.toString()}
+            </Typography>
           </CardContent>
         </Card>
       </Grid>

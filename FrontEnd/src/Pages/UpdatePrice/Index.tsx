@@ -20,11 +20,11 @@ export function UpdatePrice() {
   const { id, model, phoneId } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
   let [error, setError] = React.useState<string | boolean>(false);
-  const [value, setValue] = React.useState<String>("");
+  const [value, setValue] = React.useState<Dayjs | null>(new Dayjs());
   const [price, setPrice] = React.useState<Number>(100);
 
-  const handleChange = (newValue: Dayjs) => {
-    setValue(newValue.format("YYYY-MM-DD"));
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
   };
 
   function handlePriceChange(event: React.ChangeEvent<any>) {
@@ -41,7 +41,7 @@ export function UpdatePrice() {
     event.preventDefault();
 
     let body = {
-      date_added: value,
+      date_added: value?.format("YYYY-MM-DD"),
       price: price,
     };
 

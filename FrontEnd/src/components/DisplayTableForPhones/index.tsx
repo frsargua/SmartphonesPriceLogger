@@ -8,7 +8,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import { Button, TableHead } from "@mui/material";
+import { Button, TableHead, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import { TableColumn } from "../../types";
@@ -54,6 +54,7 @@ export default function DisplayTableForPhones() {
       return;
     }
   }
+
   const tableColumn = [
     { label: "Brand", property: "brand_name" },
     { label: "Price", property: "release_price" },
@@ -93,11 +94,15 @@ export default function DisplayTableForPhones() {
             : phones
           ).map((row, i) => (
             <TableRow key={i}>
-              <TableCell align="center">{row.release_date}</TableCell>
+              <TableCell align="center">
+                {row.release_date.toString()}
+              </TableCell>
               <TableCell align="center">
                 <Link to={`/news/${row.brand_name}`}>{row.brand_name}</Link>
               </TableCell>
-              <TableCell align="center">{row.release_price}</TableCell>
+              <TableCell align="center">
+                {row.release_price.toString()}
+              </TableCell>
               <TableCell align="center">{row.model}</TableCell>
               <TableCell
                 align="center"
