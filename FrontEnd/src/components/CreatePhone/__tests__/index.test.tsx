@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { faker } from "@faker-js/faker";
+import faker from "@faker-js/faker";
 import { render, fireEvent } from "@testing-library/react";
 import { CreateBrand } from "../../../Pages/CreateBrand/index";
 import { BrowserRouter } from "react-router-dom";
@@ -7,7 +7,7 @@ import axios from "axios";
 
 describe("Add new brand", () => {
   it("Testing if a new brand is added to the database", async () => {
-    let name = faker.name.firstName().toLowerCase();
+    let name = faker.faker.name.firstName().toLowerCase();
     const renderApp = render(
       <BrowserRouter>
         <CreateBrand />
