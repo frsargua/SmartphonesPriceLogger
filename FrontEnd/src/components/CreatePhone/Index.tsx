@@ -122,6 +122,7 @@ export function CreatePhone() {
         <TextField
           label="Price"
           required
+          name="release_price"
           type="number"
           value={newPhone.release_price}
           onChange={handleChange}
