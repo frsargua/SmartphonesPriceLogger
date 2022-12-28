@@ -17,7 +17,9 @@ export function CreatePrice() {
   const { id } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
 
-  const [newDate, setNewDate] = React.useState<Dayjs | string>(dayjs());
+  const [newDate, setNewDate] = React.useState<Dayjs | string>(
+    dayjs().format("YYYY-MM-DD")
+  );
   const [price, setPrice] = React.useState<Number>();
   let [error, setError] = React.useState<string | boolean>(false);
 
