@@ -44,7 +44,7 @@ export function getAllPriceById(id: string): string {
   return `${base}/api/price/${id}`;
 }
 
-export function createPriceById(): string {
+export function createPrice(): string {
   return `${base}/api/price`;
 }
 

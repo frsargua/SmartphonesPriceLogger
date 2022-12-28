@@ -100,3 +100,18 @@ export type newPhoneProps = {
   model: string;
   release_price: Number | null;
 };
+
+export type updatePhoneProps = {
+  brand_name: string;
+  model: string;
+  release_price: Number;
+};
+
+export type ArticleType = {
+  topic?: string;
+  author?: string;
+  publishedAt?: Date;
+  source?: { Id: string; Name: string };
+  title?: string;
+  url?: string;
+};

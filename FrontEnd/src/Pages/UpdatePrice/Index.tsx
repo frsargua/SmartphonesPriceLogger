@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -19,12 +19,14 @@ export function UpdatePrice() {
   const navigate = useNavigate();
   const { id, model, phoneId } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
-  let [error, setError] = React.useState<string | boolean>(false);
-  const [value, setValue] = React.useState<Dayjs | null>(new Dayjs());
+  const [newDate, setNewDate] = React.useState<Dayjs | string>(dayjs());
   const [price, setPrice] = React.useState<Number>(100);
+  let [error, setError] = React.useState<string | boolean>(false);
 
-  const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue);
+  const selectDate = (newValue: Dayjs | null) => {
+    if (newValue != null) {
+      setNewDate(newValue.format("YYYY-MM-DD"));
+    }
   };
 
   function handlePriceChange(event: React.ChangeEvent<any>) {
@@ -33,23 +35,22 @@ export function UpdatePrice() {
 
   async function getSinglePrice(id: string) {
     let data = await fetchData(getAllPriceById(id));
-    setPrice(data[0].price);
-    setValue(data[0].date_added);
+    let { price, date_added } = data[0];
+    setPrice(price);
+    setNewDate(date_added);
   }
 
   async function handleSubmit(event: React.ChangeEvent<any>) {
     event.preventDefault();
 
-    let body = {
-      date_added: value?.format("YYYY-MM-DD"),
-      price: price,
-    };
-
     try {
       await axios.put(updatePriceById(String(id), String(model)), {
-        ...body,
+        date_added: newDate,
+        price: price,
       });
+
       fetchPrices(String(id));
+      setError(false);
       navigate(`/prices/${model}/${phoneId}`, { replace: true });
     } catch (err) {
       if (err.response.status === 422) {
@@ -104,11 +105,10 @@ export function UpdatePrice() {
           />{" "}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
-              // minDate={dayjs()}
               label="Date mobile"
               inputFormat="YYYY/MM/DD"
-              value={value}
-              onChange={handleChange}
+              value={newDate}
+              onChange={selectDate}
               renderInput={(params) => (
                 <TextField
                   variant="filled"

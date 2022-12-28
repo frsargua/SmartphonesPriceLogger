@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import axios from "axios";
-import { createPhone, createPriceById } from "../../utils/URIs";
+import { createPhone, createPrice } from "../../utils/URIs";
 import { newPhoneProps } from "../../types/index";
 import { ErrorText } from "../ErrorText/index";
 
@@ -68,7 +68,7 @@ export function CreatePhone() {
       let response = await axios.post(createPhone(), { ...newPhone });
       let { id, release_date, release_price } = response.data;
 
-      await axios.post(createPriceById(), {
+      await axios.post(createPrice(), {
         model_id: id,
         date_added: release_date,
         price: release_price,

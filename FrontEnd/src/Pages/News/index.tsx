@@ -1,21 +1,12 @@
 import { Grid, Typography } from "@mui/material";
 import { NewsCard } from "../../components/NewsCard";
 import { useParams } from "react-router-dom";
-import { TopicParams } from "../../types/index";
+import { ArticleType, TopicParams } from "../../types/index";
 import React from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { fetchData } from "../../utils";
 import { newsApi } from "../../utils/URIs";
-
-type ArticleType = {
-  topic?: string;
-  author?: string;
-  publishedAt?: Date;
-  source?: { Id: string; Name: string };
-  title?: string;
-  url?: string;
-};
 
 export function News() {
   const { topic } = useParams<keyof TopicParams>() as TopicParams;
