@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from "dayjs";
 // Types mainly use for the brands useContext
 
 export type BrandProps = {
@@ -89,4 +90,28 @@ export enum SortingType {
 export type TableColumn = {
   label: string;
   property: keyof TableData;
+};
+
+//form props
+
+export type newPhoneProps = {
+  brand_name: string;
+  release_date: Dayjs | string;
+  model: string;
+  release_price: Number | null;
+};
+
+export type updatePhoneProps = {
+  brand_name: string;
+  model: string;
+  release_price: Number;
+};
+
+export type ArticleType = {
+  topic?: string;
+  author?: string;
+  publishedAt?: Date;
+  source?: { Id: string; Name: string };
+  title?: string;
+  url?: string;
 };

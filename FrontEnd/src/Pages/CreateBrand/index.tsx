@@ -25,6 +25,7 @@ export function CreateBrand() {
     try {
       await axios.post(createBrand(), { brand: newBrand.toLowerCase() });
       fetchBrands();
+      setError(false);
       navigate(`/`, { replace: true });
     } catch (err) {
       if (err.response.status === 422) {

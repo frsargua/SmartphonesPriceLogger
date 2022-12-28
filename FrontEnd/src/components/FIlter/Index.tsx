@@ -20,14 +20,14 @@ export function Filter() {
   const [price, setPrice] = React.useState<string>("clear");
 
   const handleChangeSelect = (event: SelectChangeEvent) => {
-    setBrand(event.target.value as string);
-    let newBrand = event.target.value;
-    filter(newBrand, price);
+    let { value: brandOption } = event.target;
+    setBrand(brandOption as string);
+    filter(brandOption, price);
   };
   const handleChangeInput = (event: React.ChangeEvent<any>) => {
-    setBrand(event.target.value as string);
-    let newBrand = event.target.value;
-    filter(newBrand, price);
+    let { value: PriceInputted } = event.target;
+    setPrice(PriceInputted);
+    filter(brand, PriceInputted);
   };
 
   const handleChangeSelectPrice = (event: SelectChangeEvent) => {
@@ -50,7 +50,7 @@ export function Filter() {
           mx: "auto",
         }}
       >
-        <Typography variant="h4" component={"h1"} mb={5} gutterBottom>
+        <Typography variant="h4" component={"h1"} mb={5}>
           Filter
         </Typography>
         <Box
@@ -62,28 +62,21 @@ export function Filter() {
           }}
         >
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Brand</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={brand}
-              label="Brand"
-              onChange={handleChangeSelect}
-            >
+            <InputLabel>Brand</InputLabel>
+            <Select value={brand} label="Brand" onChange={handleChangeSelect}>
               {brands.map((el) => (
                 <MenuItem value={el.brand}>{el.brand}</MenuItem>
               ))}
             </Select>
           </FormControl>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Price select</InputLabel>
+            <InputLabel>Price select</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               value={price}
-              label="Brand"
+              label="Price select"
               onChange={handleChangeSelectPrice}
             >
+              <MenuItem value={"clear"}> {""}</MenuItem>
               <MenuItem value={100}> {"< 100"}</MenuItem>
               <MenuItem value={200}>{"< 200"}</MenuItem>
               <MenuItem value={400}>{"< 400"}</MenuItem>

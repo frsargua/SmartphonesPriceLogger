@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import { useParams } from "react-router-dom";
-import { MyParams } from "../../types";
+import { MyParams, updatePhoneProps } from "../../types";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getPhoneById, updatePhoneById } from "../../utils/URIs";
@@ -21,32 +21,35 @@ export function UpdatePhone() {
   const { id } = useParams<keyof MyParams>() as MyParams;
   let { brands } = useContext(BrandsContext);
   let { fetchPhones } = React.useContext(CollectionOfPhonesContext);
-  const [brand, setBrand] = React.useState<string>("");
-  const [model, setModel] = React.useState<string>();
-  const [price, setPrice] = React.useState<Number>();
+
+  const [phoneFields, setPhoneFields] = React.useState<updatePhoneProps>({
+    brand_name: "",
+    model: "",
+    release_price: 0,
+  });
+
   let [error, setError] = React.useState<string | boolean>(false);
 
   const handleChangeSelect = (event: SelectChangeEvent) => {
-    setBrand(event.target.value as string);
+    let { value, name } = event.target;
+    setPhoneFields((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
-  function handleModelChange(event: React.ChangeEvent<any>) {
-    setModel(event.target.value as string);
-  }
-  function handlePriceChange(event: React.ChangeEvent<any>) {
-    setPrice(event.target.value as Number);
+
+  function handleChange(event: React.ChangeEvent<any>) {
+    let { value, name } = event.target;
+    setPhoneFields((prev) => {
+      return { ...prev, [name]: value };
+    });
   }
 
   async function handleSubmit(event: React.ChangeEvent<any>) {
     event.preventDefault();
 
-    let body = {
-      brand_name: brand,
-      model: model,
-      release_price: price,
-    };
     try {
       if (id) {
-        await axios.put(updatePhoneById(id), { ...body });
+        await axios.put(updatePhoneById(id), { ...phoneFields });
         fetchPhones();
         navigate(`/`, { replace: true });
       } else {
@@ -62,10 +65,10 @@ export function UpdatePhone() {
   }
 
   async function getSinglePhone(id: string) {
-    let data = await fetchData(getPhoneById(id));
-    setPrice(data.release_price);
-    setModel(data.model);
-    setBrand(data.brand_name);
+    let { release_price, model, brand_name } = await fetchData(
+      getPhoneById(id)
+    );
+    setPhoneFields({ release_price, model, brand_name });
   }
 
   React.useEffect(() => {
@@ -109,8 +112,9 @@ export function UpdatePhone() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={brand}
+              value={phoneFields.brand_name}
               variant="filled"
+              name="brand_name"
               size="small"
               label="Brand"
               onChange={handleChangeSelect}
@@ -124,15 +128,17 @@ export function UpdatePhone() {
           </FormControl>
           <TextField
             label="Model"
-            value={model}
-            onChange={handleModelChange}
+            name="model"
+            value={phoneFields.model}
+            onChange={handleChange}
             variant="filled"
             margin="normal"
           />
           <TextField
             label="Price"
-            value={price}
-            onChange={handlePriceChange}
+            name="release_price"
+            value={phoneFields.release_price}
+            onChange={handleChange}
             variant="filled"
             margin="normal"
           />

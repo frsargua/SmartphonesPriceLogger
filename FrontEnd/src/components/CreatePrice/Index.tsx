@@ -8,51 +8,52 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { useParams } from "react-router-dom";
 import { MyParams } from "../../types";
-import { createPriceById } from "../../utils/URIs";
+import { createPrice } from "../../utils/URIs";
 import { PricesContext } from "../../context/PricesContext";
+import axios from "axios";
+import { ErrorText } from "../ErrorText/index";
 
 export function CreatePrice() {
   const { id } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
 
-  const [date, setDate] = React.useState<Dayjs | null>(dayjs());
-  const [price, setPrice] = React.useState<Number | null>();
+  const [newDate, setNewDate] = React.useState<Dayjs | string>(
+    dayjs().format("YYYY-MM-DD")
+  );
+  const [price, setPrice] = React.useState<Number>();
+  let [error, setError] = React.useState<string | boolean>(false);
 
   const selectDate = (newValue: Dayjs | null) => {
-    setDate(newValue);
+    if (newValue != null) {
+      setNewDate(newValue.format("YYYY-MM-DD"));
+    }
   };
-
   function handlePriceChange(event: React.ChangeEvent<any>) {
     setPrice(event.target.value as Number);
   }
 
   const clearStates = (): void => {
-    setDate(dayjs());
+    setNewDate(dayjs());
     setPrice(0);
   };
 
   async function handleSubmit(event: React.ChangeEvent<any>) {
     event.preventDefault();
-    let body = {
-      model_id: id,
-      date_added: date?.format("YYYY-MM-DD"),
-      price: price,
-    };
 
     try {
-      let response = await fetch(createPriceById(), {
-        method: "POST",
-        body: JSON.stringify({ ...body }),
-        headers: { "Content-Type": "application/json" },
+      await axios.post(createPrice(), {
+        model_id: id,
+        date_added: newDate,
+        price: price,
       });
 
-      if (response) {
-        fetchPrices(String(id));
-        clearStates();
+      fetchPrices(String(id));
+      clearStates();
+    } catch (err) {
+      console.error("Error in POST request:", err);
+      if (err.response.status === 422) {
+        setError(err.response.data.message);
       }
-    } catch (error) {
-      console.error("Error in POST request:", error);
-      return;
     }
   }
 
@@ -71,7 +72,7 @@ export function CreatePrice() {
           <MobileDatePicker
             label="Date mobile"
             inputFormat="YYYY-MM-DD"
-            value={date}
+            value={newDate}
             onChange={selectDate}
             renderInput={(params) => (
               <TextField required variant="filled" size="small" {...params} />
@@ -88,6 +89,7 @@ export function CreatePrice() {
         />
         <Button type="submit">Add</Button>
       </Box>
+      {error ? <ErrorText errorMessage={error} /> : ""}
     </>
   );
 }
