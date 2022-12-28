@@ -15,65 +15,70 @@ import FormControl from "@mui/material/FormControl";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import axios from "axios";
 import { createPhone, createPriceById } from "../../utils/URIs";
+import { newPhoneProps } from "../../types/index";
 import { ErrorText } from "../ErrorText/index";
 
 export function CreatePhone() {
   let { brands } = useContext(BrandsContext);
   let { fetchPhones } = useContext(CollectionOfPhonesContext);
-  //There is a nicer way to do it. However, i could not recall how to do it on time.
-  const [brand, setBrand] = React.useState<string>("");
-  const [date, setDate] = React.useState<Dayjs | null>(dayjs());
-  const [model, setModel] = React.useState<string>();
-  const [price, setPrice] = React.useState<Number | null>();
+  let emptyPhoneObject = {
+    brand_name: "",
+    release_date: dayjs().format("YYYY-MM-DD"),
+    model: "",
+    release_price: null,
+  };
+
+  const [newPhone, setNewPhone] = React.useState<newPhoneProps>({
+    ...emptyPhoneObject,
+  });
   let [error, setError] = React.useState<string | boolean>(false);
 
   const clearStates = (): void => {
-    setBrand("");
-    setDate(dayjs());
-    setModel("");
-    setPrice(0);
+    setNewPhone({
+      ...emptyPhoneObject,
+    });
   };
 
   const handleChangeSelect = (event: SelectChangeEvent) => {
-    setBrand(event.target.value as string);
+    let { value, name } = event.target;
+    setNewPhone((prev) => {
+      return { ...prev, [name]: value };
+    });
   };
 
   const selectDate = (newValue: Dayjs | null) => {
-    setDate(newValue);
+    if (newValue != null) {
+      setNewPhone((prev) => {
+        return { ...prev, release_date: newValue.format("YYYY-MM-DD") };
+      });
+    }
   };
 
-  function handleModelChange(event: React.ChangeEvent<any>) {
-    setModel(event.target.value as string);
-  }
-  function handlePriceChange(event: React.ChangeEvent<any>) {
-    setPrice(event.target.value as Number);
+  function handleChange(event: React.ChangeEvent<any>) {
+    let { value, name } = event.target;
+    setNewPhone((prev) => {
+      return { ...prev, [name]: value };
+    });
   }
 
   async function handleSubmit(event: React.ChangeEvent<any>) {
     event.preventDefault();
-    let body = {
-      brand_name: brand,
-      model: model,
-      release_date: date?.format("YYYY-MM-DD"),
-      release_price: price,
-    };
 
     try {
-      let response = await axios.post(createPhone(), { ...body });
+      let response = await axios.post(createPhone(), { ...newPhone });
+      let { id, release_date, release_price } = response.data;
 
-      let newPriceObj = {
-        model_id: response.data.id,
-        date_added: response.data.release_date,
-        price: response.data.release_price,
-      };
-
-      let newPrice = await axios.post(createPriceById(), { ...newPriceObj });
+      await axios.post(createPriceById(), {
+        model_id: id,
+        date_added: release_date,
+        price: release_price,
+      });
 
       fetchPhones();
       clearStates();
+      setError(false);
     } catch (err) {
       if (err.response.status === 422) {
-        console.log(err);
         setError(err.response.data.message);
       }
     }
@@ -91,12 +96,10 @@ export function CreatePhone() {
         }}
       >
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Brand</InputLabel>
+          <InputLabel>Brand</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={brand}
-            label="Brand"
+            value={newPhone.brand_name}
+            name="brand_name"
             required
             onChange={handleChangeSelect}
           >
@@ -110,8 +113,9 @@ export function CreatePhone() {
         <TextField
           label="Model"
           required
-          value={model}
-          onChange={handleModelChange}
+          name="model"
+          value={newPhone.model}
+          onChange={handleChange}
           margin="normal"
           type={"text"}
         />
@@ -119,18 +123,19 @@ export function CreatePhone() {
           label="Price"
           required
           type="number"
-          value={price}
-          onChange={handlePriceChange}
+          value={newPhone.release_price}
+          onChange={handleChange}
           margin="normal"
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
-            // minDate={dayjs()}
-            label="Date mobile"
+            label="Release Date"
             inputFormat="YYYY-MM-DD"
-            value={date}
+            value={newPhone.release_date}
             onChange={selectDate}
-            renderInput={(params) => <TextField required {...params} />}
+            renderInput={(params) => (
+              <TextField name="release_date" required {...params} />
+            )}
           />
         </LocalizationProvider>
         <Button type="submit" variant="outlined" size="large">
