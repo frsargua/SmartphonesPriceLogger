@@ -8,6 +8,7 @@ import { Main } from "./Pages/Main";
 import { Prices } from "./Pages/Prices";
 import { UpdatePhone } from "./Pages/UpdatePhone/Index";
 import { UpdatePrice } from "./Pages/UpdatePrice/Index";
+import { Compare } from "./Pages/Compare";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           />
           <Route path="/news/:topic" element={<News />} />
           <Route path="/prices/:model/:id" element={<Prices />} />
+          <Route path="/compare" element={<Compare />} />
         </Routes>
       </Container>
     </>
