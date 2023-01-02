@@ -30,8 +30,10 @@ export type CompareStateProps = {
 
 export type CompareContextProps = {
   arrayOfPhonePrices: CompareStateProps[];
+  listOfIds: Number[];
   fetchPrices: (modelId: string) => void;
   updateList: (modelId: string) => void;
+  removeFromList: (modelId: string) => void;
 };
 
 // Types mainly use for the prices useContext

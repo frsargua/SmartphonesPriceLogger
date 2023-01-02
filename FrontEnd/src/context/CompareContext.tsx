@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  BrandsProps,
   PricesXYProps,
   ChildrenProps,
   CompareContextProps,
@@ -13,18 +12,19 @@ import { localStorageMethods } from "../utils/local-storage";
 
 export const CompareContext = createContext<CompareContextProps>({
   arrayOfPhonePrices: [],
+  listOfIds: [],
   fetchPrices: () => {},
   updateList: () => {},
+  removeFromList: () => {},
 });
 
 export const CompareProvider = ({ children }: ChildrenProps) => {
   const [arrayOfPhonePrices, setArrayOfPhonePrices] = useState<
     CompareStateProps[]
   >([]);
+  const [listOfIds, setListOfIds] = useState<Number[]>([]);
 
-  function convertToXY(
-    arr: PricesComparisonProps[]
-  ): { x: Number; y: Number }[] {
+  function convertToXY(arr: PricesComparisonProps[]): PricesXYProps[] {
     return arr.map(
       (
         arrData: PricesComparisonProps,
@@ -60,7 +60,11 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
       }
     });
 
+    setListOfIds((prev) => {
+      return [...prev, parseInt(id)];
+    });
     localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
+    localStorageMethods.updateLS("listOfIds", listOfIds);
   }
 
   async function updateList(modelId: string) {
@@ -75,18 +79,35 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
     });
 
     localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
+    localStorageMethods.updateLS("listOfIds", listOfIds);
+  }
+
+  async function removeFromList(modelId: string) {
+    setArrayOfPhonePrices((prev) => {
+      return prev.filter((el) => el.model !== modelId);
+    });
+    setListOfIds((prev) => {
+      return prev.filter((el) => el !== +modelId);
+    });
+
+    localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
+    localStorageMethods.updateLS("listOfIds", listOfIds);
   }
 
   useEffect(() => {
     localStorageMethods.initializeLS("arrayOfPhonePrices");
     let listFromLS = localStorageMethods.loadFromLS("arrayOfPhonePrices");
+    let listOfIdsFromLS = localStorageMethods.loadFromLS("listOfIds");
     setArrayOfPhonePrices(listFromLS);
+    setListOfIds(listOfIdsFromLS);
   }, []);
 
   let value = {
     arrayOfPhonePrices,
+    listOfIds,
     fetchPrices: fetchPrices,
     updateList: updateList,
+    removeFromList: removeFromList,
   };
   return (
     <CompareContext.Provider value={value}>{children}</CompareContext.Provider>

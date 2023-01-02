@@ -14,11 +14,14 @@ import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
 import { CompareContext } from "../../context/CompareContext";
 import { TableColumn } from "../../types";
 import { deletePhoneById } from "../../utils/URIs";
+import { cp } from "fs";
 
 export default function DisplayTableForPhones() {
   let { phones, fetchPhones, sortBy, getSortDirection } = React.useContext(
     CollectionOfPhonesContext
   );
+  let { removeFromList } = React.useContext(CompareContext);
+  let { listOfIds } = React.useContext(CompareContext);
   let { fetchPrices } = React.useContext(CompareContext);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -125,10 +128,12 @@ export default function DisplayTableForPhones() {
                 </Button>
                 <Button
                   onClick={() => {
-                    fetchPrices(row.id);
+                    listOfIds.includes(row.id)
+                      ? removeFromList(String(row.id))
+                      : fetchPrices(String(row.id));
                   }}
                 >
-                  Compare
+                  {listOfIds.includes(row.id) ? "-" : "+"}
                 </Button>
               </TableCell>
             </TableRow>
