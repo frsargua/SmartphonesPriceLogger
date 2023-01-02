@@ -28,11 +28,18 @@ export function Navbar() {
                 <HomeIcon />
               </Link>
             </IconButton>
-            <ButtonBase sx={{ px: "1rem", py: "0.5rem" }}>
-              <Typography variant="h6" color="inherit" component="div">
-                <Link to={"/create-brand"}>Create Brand</Link>
-              </Typography>
-            </ButtonBase>
+            <Box>
+              <ButtonBase sx={{ px: "1rem", py: "0.5rem" }}>
+                <Typography variant="h6" color="inherit" component="div">
+                  <Link to={"/create-brand"}>Create Brand</Link>
+                </Typography>
+              </ButtonBase>
+              <ButtonBase sx={{ px: "1rem", py: "0.5rem" }}>
+                <Typography variant="h6" color="inherit" component="div">
+                  <Link to={"/compare"}>Compare</Link>
+                </Typography>
+              </ButtonBase>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>

@@ -12,6 +12,30 @@ export type BrandsContextProps = {
   fetchBrands: () => void;
 };
 
+// Types mainly use for the comparison useContext
+export type PricesComparisonProps = {
+  model: Number;
+  id: Number;
+  date_added: Date;
+  price: number;
+  created_at: Date;
+  updated_at: Date;
+};
+export type PricesXYProps = { x: Number; y: Number };
+
+export type CompareStateProps = {
+  model: string;
+  prices: PricesXYProps[];
+};
+
+export type CompareContextProps = {
+  arrayOfPhonePrices: CompareStateProps[];
+  listOfIds: Number[];
+  fetchPrices: (modelId: string) => void;
+  updateList: (modelId: string) => void;
+  removeFromList: (modelId: string) => void;
+};
+
 // Types mainly use for the prices useContext
 
 export type PricesProps = {

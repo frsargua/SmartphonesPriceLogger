@@ -12,10 +12,12 @@ import { createPrice } from "../../utils/URIs";
 import { PricesContext } from "../../context/PricesContext";
 import axios from "axios";
 import { ErrorText } from "../ErrorText/index";
+import { CompareContext } from "../../context/CompareContext";
 
 export function CreatePrice() {
   const { id } = useParams<keyof MyParams>() as MyParams;
   let { fetchPrices } = useContext(PricesContext);
+  let { updateList } = useContext(CompareContext);
 
   const [newDate, setNewDate] = React.useState<Dayjs | string>(
     dayjs().format("YYYY-MM-DD")
@@ -48,6 +50,7 @@ export function CreatePrice() {
       });
 
       fetchPrices(String(id));
+      updateList(String(id));
       clearStates();
     } catch (err) {
       console.error("Error in POST request:", err);
