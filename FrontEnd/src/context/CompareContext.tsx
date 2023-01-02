@@ -63,8 +63,6 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
     setListOfIds((prev) => {
       return [...prev, parseInt(id)];
     });
-    localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
-    localStorageMethods.updateLS("listOfIds", listOfIds);
   }
 
   async function updateList(modelId: string) {
@@ -77,9 +75,6 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
         return el;
       });
     });
-
-    localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
-    localStorageMethods.updateLS("listOfIds", listOfIds);
   }
 
   async function removeFromList(modelId: string) {
@@ -89,9 +84,6 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
     setListOfIds((prev) => {
       return prev.filter((el) => el !== +modelId);
     });
-
-    localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
-    localStorageMethods.updateLS("listOfIds", listOfIds);
   }
 
   useEffect(() => {
@@ -101,6 +93,18 @@ export const CompareProvider = ({ children }: ChildrenProps) => {
     setArrayOfPhonePrices(listFromLS);
     setListOfIds(listOfIdsFromLS);
   }, []);
+
+  useEffect(() => {
+    if (listOfIds.length > 0) {
+      localStorageMethods.updateLS("listOfIds", listOfIds);
+    }
+  }, [listOfIds]);
+
+  useEffect(() => {
+    if (arrayOfPhonePrices.length > 0) {
+      localStorageMethods.updateLS("arrayOfPhonePrices", arrayOfPhonePrices);
+    }
+  }, [arrayOfPhonePrices]);
 
   let value = {
     arrayOfPhonePrices,
