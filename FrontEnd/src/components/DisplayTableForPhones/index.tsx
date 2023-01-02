@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Button, TableHead, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CollectionOfPhonesContext } from "../../context/PhoneListContext";
+import { CompareContext } from "../../context/CompareContext";
 import { TableColumn } from "../../types";
 import { deletePhoneById } from "../../utils/URIs";
 
@@ -18,6 +19,7 @@ export default function DisplayTableForPhones() {
   let { phones, fetchPhones, sortBy, getSortDirection } = React.useContext(
     CollectionOfPhonesContext
   );
+  let { fetchPrices } = React.useContext(CompareContext);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -120,6 +122,13 @@ export default function DisplayTableForPhones() {
                 </Button>
                 <Button>
                   <Link to={`/prices/${row.model}/${row.id}`}>Stats</Link>
+                </Button>
+                <Button
+                  onClick={() => {
+                    fetchPrices(row.id);
+                  }}
+                >
+                  Compare
                 </Button>
               </TableCell>
             </TableRow>

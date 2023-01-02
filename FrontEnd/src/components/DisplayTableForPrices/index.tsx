@@ -14,12 +14,14 @@ import { PricesContext } from "../../context/PricesContext";
 import { MyParams } from "../../types";
 import { useParams } from "react-router-dom";
 import { deletePriceById } from "../../utils/URIs";
+import { CompareContext } from "../../context/CompareContext";
 
 export default function DisplayTableForPrices({ model }: { model: string }) {
   const { id: phoneId } = useParams<keyof MyParams>() as MyParams;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let { prices, fetchPrices } = useContext(PricesContext);
+  let { updateList } = useContext(CompareContext);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -48,6 +50,7 @@ export default function DisplayTableForPrices({ model }: { model: string }) {
 
       if (response.ok) {
         fetchPrices(String(phoneId));
+        updateList(String(phoneId));
       }
     } catch (error) {
       console.error("Error in POST request:", error);
